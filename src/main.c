@@ -107,5 +107,6 @@ int					main(int ac, char **av, char **env_o)
 		cli ? free(cli) : 0;
 	}
 	read_mode ? tcsetattr(0, TCSADRAIN, &termcap_21sh[1]) : 0;
+	printf("End of transmission\n");
 	return (0);
 }

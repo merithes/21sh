@@ -20,7 +20,7 @@ LIBFT		= -Llibft -lft -lcurses
 SRCS 		=	main.c env.c init_env.c manage_env.c prompt.c command.c		\
 				bin_nenv.c bin_env.c edit_var.c interpret_env_cli.c			\
 				error_handler.c free_list.c splitter.c terminit.c get_line.c \
-				ft_error.c k_arrows_sides.c
+				ft_error.c k_arrows_sides.c k_del.c k_home_end.c
 DIR_SRC		= $(addprefix $(SRCPATH)/, $(SRCS))
 SRCPATH		= src
 

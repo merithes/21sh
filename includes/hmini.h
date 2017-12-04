@@ -145,4 +145,8 @@ int							get_line(int rm, char **tf);
 
 int							k_arrows_sides(int lr, unsigned int cursor,
 								char *scribe);
+int							k_del(unsigned int cursor, char *scribe,
+								char buffer[6]);
+unsigned int				k_home_end(int kc, unsigned int cursor,
+								char *scribe);
 #endif

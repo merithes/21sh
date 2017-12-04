@@ -73,7 +73,7 @@ int					getpath(char *cmd, t_env *env, char *fullpath)
 	chk_exist(cmd, content, fullpath);
 	while (content[++i])
 		free(content[i]);
-	return ((int)return_free(content));
+	return ((int)(long int)return_free(content));
 }
 
 int					builtin_chk(char **arr, char *cmd, t_env *env)
