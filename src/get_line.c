@@ -20,7 +20,7 @@ char				*add_char(char buffer[6], unsigned int cursor, char *scribe)
 	write(1, &buffer[0], 1);
 	len = ft_strlen(scribe);
 	if (!(tmp = malloc(len + 2)))
-		ft_error("Couldn't mallocate.\n", -1);
+		ft_error("Failed Memory Allocation\n", -1);
 	ft_bzero(tmp, len + 2);
 	ft_strncpy(tmp, scribe, cursor);
 	tmp[cursor] = buffer[0];
@@ -38,24 +38,26 @@ int					special_check(char buffer[6], char *scribe)
 	return (0);
 }
 
-unsigned int		special_act(char buffer[6], char *scribe, int cursor)
+unsigned int		special_act(char buffer[6], char **scribe,
+						int cursor, t_histo **history)
 {
 	(void)scribe;
+	(void)history;
 	if (buffer[0] == 27 && buffer[1] == 91)
 	{
 		if (buffer[2] == 67 || buffer[2] == 68)
-			return (k_arrows_sides(buffer[2] - 67, cursor, scribe));
+			return (k_arrows_sides(buffer[2] - 67, cursor, *scribe));
 		else if (buffer[2] == 72 || buffer[2] == 70)
-			return (k_home_end(buffer[2] - 70, cursor, scribe));/*
+			return (k_home_end(buffer[2] - 70, cursor, *scribe));
 		else if (buffer[2] == 65 || buffer[2] == 66)
-			return (k_arrows_histo(buffer[2] - 65), cursor);*/
+			return (k_arrows_histo(buffer[2] - 65, cursor, history, scribe));
 		return (cursor);
 	}
 	return (cursor);
 }
-//		printf("%d\t%d\t%d\t%d\t%d\t%d\n", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5]);
-int					get_cmdl(char **to_fill)
 
+//					printf("%d\t%d\t%d\t%d\t%d\t%d\n", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5]);
+int					get_cmdl(char **to_fill, t_histo **history)
 {
 	char			buffer[6];
 	char			*scribe;
@@ -76,22 +78,23 @@ int					get_cmdl(char **to_fill)
 			&& buffer[1] == 91 && buffer[2] == 51 && buffer[3] == 126))
 			cursor = k_del(cursor, scribe, buffer);
 		else if (special_check(buffer, scribe))
-			cursor = special_act(buffer, scribe, cursor);
+			cursor = special_act(buffer, &scribe, cursor, history);
 		else
 			scribe = add_char(buffer, cursor++, scribe);
 		ft_bzero(buffer, 6);
 	}
-	*to_fill = scribe;
+	register_history(to_fill, history, scribe);
 	return (ret);
 }
 
-int					get_line(int read_mode, char **to_fill)
+int					get_line(int read_mode, char **to_fill, t_histo **history)
 {
 	int				tmp;
 
+	*history = new_cmd_histo(read_mode, history);
 	if (read_mode)
 	{
-		tmp = get_cmdl(to_fill);
+		tmp = get_cmdl(to_fill, history);
 		write(1, "\n", 1);
 		return (tmp);
 	}

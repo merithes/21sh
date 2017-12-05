@@ -16,5 +16,6 @@ int					ft_error(char *inp, int nerror)
 {
 	if (inp)
 		ft_putstr(inp);
+	tcsetattr(0, TCSADRAIN, &termcap_21sh[1]);
 	exit(nerror);
 }

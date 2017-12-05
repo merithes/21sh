@@ -1,0 +1,12 @@
+tabs + backdel won't work correctly
+	|_>	This is due to the method I use, as I go back
+		one'slot' per one 'slot', and tabs are 4 slots
+		(or maybe more depending on the term.
+		I need to check that)
+
+typing keys more than there is space to on a single line will
+work, it will go to the next line, but it's not possible to
+go back to the previous line, may it be with arrows or backdel
+	|_>	I use a 'go back one by one' technique, which
+		ignores newlines.
+

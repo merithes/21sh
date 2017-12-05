@@ -42,6 +42,10 @@
 # define LEFT 1
 # define RIGHT 0
 
+# define MAX_HISTO 25
+
+# define BACKMX "4294967295"
+
 # define N_ENV "Environment received empty. Creating a new one.\n"
 # define DEF_PROMPT "[\\s]\\u> "
 # define DEF_PATH "/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin"
@@ -52,16 +56,6 @@
 
 /*
 ** /!\SYSTEM DEPENDANT /!\
-** ============================================================================
-*/
-
-/*
-** MACs
-** ============================================================================
-*/
-
-/*
-** ARCH
 ** ============================================================================
 */
 
@@ -82,6 +76,14 @@ typedef struct				s_env
 	struct s_env			*next;
 }							t_env;
 
+typedef struct				s_histo
+{
+	char					*cont;
+	struct s_histo			*prev;
+	struct s_histo			*next;
+	int						swit;
+}							t_histo;
+
 typedef struct termios		t_ermios;
 
 /*
@@ -89,6 +91,7 @@ typedef struct termios		t_ermios;
 */
 
 t_ermios					termcap_21sh[2];
+t_env						*g_backup_env;
 
 /*
 ** DECLARATIONS
@@ -141,7 +144,7 @@ int							ft_error(char *inp, int nerror);
 
 int							terminit(t_env *env);
 
-int							get_line(int rm, char **tf);
+int							get_line(int rm, char **tf, t_histo **history);
 
 int							k_arrows_sides(int lr, unsigned int cursor,
 								char *scribe);
@@ -149,4 +152,12 @@ int							k_del(unsigned int cursor, char *scribe,
 								char buffer[6]);
 unsigned int				k_home_end(int kc, unsigned int cursor,
 								char *scribe);
+
+unsigned int				k_arrows_histo(int ud, unsigned int c,
+								t_histo **histo, char **scribe);
+void						register_history(char **to_fill, t_histo **history,
+								char *scribe);
+t_histo						*histo_init(void);
+t_histo						*new_cmd_histo(int readm, t_histo **histo);
+
 #endif

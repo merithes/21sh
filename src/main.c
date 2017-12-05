@@ -12,8 +12,6 @@
 
 #include "hmini.h"
 
-static t_env		*g_backup_env;
-
 void				signal_newline(int inp)
 {
 	(void)inp;
@@ -89,16 +87,18 @@ int					main(int ac, char **av, char **env_o)
 	char			*cli;
 	t_env			*env;
 	int				read_mode;
+	t_histo			*history;
 
 	(void)ac;
 	(void)av;
+	history = NULL;
 	if (!(env = translate_env(env_o, 0)))
 		return (-1);
 	g_backup_env = env;
 	read_mode = terminit(env);
 	write_prompt(env);
 	signal(SIGINT, &signal_handler);
-	while (get_line(read_mode, &cli) > 0)
+	while (get_line(read_mode, &cli, &history) > 0)
 	{
 		cli = line_env_interpret(cli, env);
 		exec_cli(cli, env);
