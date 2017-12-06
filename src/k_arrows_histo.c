@@ -64,19 +64,12 @@ void				register_history(char **to_fill, t_histo **history,
 	t_histo			*cursor;
 
 	cursor = *history;
+	cursor->cont ? free(cursor->cont) : 0;
+	cursor->cont = ft_strdup(scribe);
 	while (cursor->next != NULL)
 		cursor = cursor->next;
-	if (cursor->cont != NULL)
-	{
-		cursor->next = histo_init();
-		cursor->next->prev = cursor;
-		cursor->next->cont = ft_strdup(scribe);
-	}
-	else
-	{
-		cursor->cont ? free(cursor->cont) : 0;
-		cursor->cont = ft_strdup(scribe);
-	}
+	cursor->cont ? free(cursor->cont) : 0;
+	cursor->cont = ft_strdup(scribe);
 	del_old(history);
 	*to_fill = scribe;
 }
@@ -89,6 +82,7 @@ unsigned int		k_arrows_histo(int down, unsigned int cursor,
 	i[0] = 0;
 	if ((down && !(*history)->next) || (!down && !(*history)->prev))
 		return (cursor);
+	(*history)->cont ? free((*history)->cont) : 0;
 	(*history)->cont = *scribe;
 	if (down)
 		*history = (*history)->next;
@@ -102,6 +96,6 @@ unsigned int		k_arrows_histo(int down, unsigned int cursor,
 	write(1, "\033[4294967285D", 13);
 	write_prompt(g_backup_env);
 	ft_putstr((*history)->cont);
-	*scribe = (*history)->cont;
+	*scribe = ft_strdup((*history)->cont);
 	return ((unsigned int)ft_strlen(*scribe));
 }

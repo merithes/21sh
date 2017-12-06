@@ -39,7 +39,7 @@ int					special_check(char buffer[6], char *scribe)
 }
 
 unsigned int		special_act(char buffer[6], char **scribe,
-						int cursor, t_histo **history)
+						unsigned int cursor, t_histo **history)
 {
 	(void)scribe;
 	(void)history;
@@ -51,12 +51,15 @@ unsigned int		special_act(char buffer[6], char **scribe,
 			return (k_home_end(buffer[2] - 70, cursor, *scribe));
 		else if (buffer[2] == 65 || buffer[2] == 66)
 			return (k_arrows_histo(buffer[2] - 65, cursor, history, scribe));
+		else if (buffer[0] == 27 && buffer[1] == 91 && buffer[2] == 49 &&
+			buffer[3] == 59 && buffer[4] == 53 &&
+				(buffer[5] == 68 || buffer[5] == 67))
+			return (k_arrows_skipwd(*scribe, cursor, buffer[5] - 67));
 		return (cursor);
 	}
 	return (cursor);
 }
 
-//					printf("%d\t%d\t%d\t%d\t%d\t%d\n", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5]);
 int					get_cmdl(char **to_fill, t_histo **history)
 {
 	char			buffer[6];
@@ -69,6 +72,7 @@ int					get_cmdl(char **to_fill, t_histo **history)
 	scribe = ft_strdup("");
 	while ((ret = read(0, buffer, 6)) > 0)
 	{
+					printf("%d\t%d\t%d\t%d\t%d\t%d\n", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5]);
 		if ((buffer[0] == 4 && !cursor && !scribe[0]) || buffer[0] == 10)
 		{
 			ret = (buffer[0] == 10) ? 1 : 0;
