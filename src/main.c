@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-/*   Updated: 2017/12/02 18:37:33 by vboivin          ###   ########.fr       */
+/*   Updated: 2017/12/07 23:18:14 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int					main(int ac, char **av, char **env_o)
 	signal(SIGINT, &signal_handler);
 	while (get_line(read_mode, &cli, &history) > 0)
 	{
+		read_mode ? tcsetattr(0, TCSADRAIN, &termcap_21sh[1]) : 0;
 		cli = line_env_interpret(cli, env);
 		exec_cli(cli, env);
 		signal(SIGINT, &signal_handler);

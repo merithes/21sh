@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2017/12/02 21:11:36 by vboivin          ###   ########.fr       */
+/*   Updated: 2017/12/07 20:12:20 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,8 @@ int							k_del(unsigned int cursor, char *scribe,
 								char buffer[6]);
 unsigned int				k_home_end(int kc, unsigned int cursor,
 								char *scribe);
+unsigned int				k_arrows_skipwd(char *scribe, unsigned int c,
+								int left);
 
 unsigned int				k_arrows_histo(int ud, unsigned int c,
 								t_histo **histo, char **scribe);
@@ -159,5 +161,8 @@ void						register_history(char **to_fill, t_histo **history,
 								char *scribe);
 t_histo						*histo_init(void);
 t_histo						*new_cmd_histo(int readm, t_histo **histo);
+
+void						move_forw(int i);
+void						move_back(int i);
 
 #endif
