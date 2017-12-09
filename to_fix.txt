@@ -24,4 +24,6 @@ segfault on crl+d
 when going back using left arrow, pressing space will re-print characters of
 the precedent string. Not supposed to happen(don't you say) but works in every
 case (not hard to reproduce)
-	|_>	Source not tracked yet
+	|_>	I worked only on the del keys, totaly forgot the insertion thing. Not a
+		bug, just a forgotten feature. Doesn't work as instended since it
+		wasn't intended in the first place

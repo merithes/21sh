@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 15:52:10 by vboivin           #+#    #+#             */
-/*   Updated: 2017/12/07 22:45:32 by vboivin          ###   ########.fr       */
+/*   Updated: 2017/12/09 10:10:57 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int					get_cmdl(char **to_fill, t_histo **history)
 			cursor = k_del(cursor, scribe, buffer);
 		else if (special_check(buffer, scribe))
 			cursor = special_act(buffer, &scribe, cursor, history);
-		else
+		else if (buffer[0] != -61)
 			scribe = add_char(buffer, cursor++, scribe);
 		ft_bzero(buffer, 6);
 	}
