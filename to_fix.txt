@@ -1,25 +1,29 @@
-Resolved: You're not supposed to print tabs, duh.
 tabs + backdel won't work correctly
 	|_>	This is due to the method I use, as I go back
 		one'slot' per one 'slot', and tabs are 4 slots
 		(or maybe more depending on the term.
 		I need to check that)
+Resolved:
+You're not supposed to print tabs, duh.
 
-Resolved: Issue only occuring on Linux (Fedora, Terminator).
 typing keys more than there is space to on a single line will
 work, it will go to the next line, but it's not possible to
 go back to the previous line, may it be with arrows or backdel
 	|_>	I use a 'go back one by one' technique, which
 		ignores newlines.
+Resolved:
+Issue only occuring on Linux (Fedora, Terminator). Unexisting termcap ?
 
-Resolved: Added a check before registering the history.
 entering a blank line will add it to the cmd history.Not supposed to happen
 	|_>	I simply append a copy of the current cmdl to the history chained list.
 		I should check if the actual cmdl is empty (or contains only spaces)
+Resolved:
+Added a check before registering the history.
 
-Resolved: won't free if here is no previous history element.
 segfault on crl+d
 	|_>	Wrong free when buffer is empty (or filled with spaces) on 1st return
+Resolved:
+won't free if here is no previous history element.
 
 when going back using left arrow, pressing space will re-print characters of
 the precedent string. Not supposed to happen(don't you say) but works in every
@@ -27,3 +31,4 @@ case (not hard to reproduce)
 	|_>	I worked only on the del keys, totaly forgot the insertion thing. Not a
 		bug, just a forgotten feature. Doesn't work as instended since it
 		wasn't intended in the first place
+Resolved.

@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 15:52:10 by vboivin           #+#    #+#             */
-/*   Updated: 2017/12/09 10:10:57 by vboivin          ###   ########.fr       */
+/*   Updated: 2017/12/09 11:22:00 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char				*add_char(char buffer[6], unsigned int cursor, char *scribe)
 	tmp[cursor] = buffer[0];
 	ft_strcat(tmp, scribe + cursor);
 	ft_putstr(tmp + cursor + 1);
+	(len - cursor) ? move_back((int)(len - cursor)) : 0;
 	scribe ? free(scribe) : 0;
 	return (tmp);
 }
