@@ -54,6 +54,13 @@
 # define NEOB " File doesn't exist or isn't a binary"
 # define NSC " No such command\n"
 
+# define NONE 0
+# define PIPE 1 << 1
+# define SEPA 1 << 2
+# define OR 1 << 3
+# define AND 1 << 4
+# define BCKG 1 << 5
+
 /*
 ** /!\SYSTEM DEPENDANT /!\
 ** ============================================================================
@@ -85,6 +92,23 @@ typedef struct				s_histo
 }							t_histo;
 
 typedef struct termios		t_ermios;
+
+typedef struct				s_ast
+{
+	void					*left;
+	void					*right;
+	struct s_ast			*prev;
+	int						type;
+	int						branch_types;
+}							t_ast;
+
+typedef struct				s_list_complete
+{
+	int						infos;
+	char					*cont;
+	struct s_list_complete	*prev;
+	struct s_list_complete	*next;
+}							t_listc;
 
 /*
 ** GLOBALS
@@ -164,5 +188,11 @@ t_histo						*new_cmd_histo(int readm, t_histo **histo);
 
 void						move_forw(int i);
 void						move_back(int i);
+
+void						exec_cli_lst(char *cli, t_env *env);
+void						exec_cli(char *cli, t_env *env);
+void						grow_ast(char *i, t_env *e);
+t_listc						*cut_string_delimiters(char *inp);
+void						exec_lst(t_listc *inp, t_env *env);
 
 #endif

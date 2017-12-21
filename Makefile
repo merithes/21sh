@@ -21,7 +21,8 @@ SRCS 		=	main.c env.c init_env.c manage_env.c prompt.c command.c		\
 				bin_nenv.c bin_env.c edit_var.c interpret_env_cli.c			\
 				error_handler.c free_list.c splitter.c terminit.c get_line.c \
 				ft_error.c k_arrows_sides.c k_del.c k_home_end.c \
-				k_arrows_histo.c k_arrows_skipwd.c move_cursor.c
+				k_arrows_histo.c k_arrows_skipwd.c move_cursor.c exec_cli_lst.c\
+				cut_string_lst.c construct_lst.c
 DIR_SRC		= $(addprefix $(SRCPATH)/, $(SRCS))
 SRCPATH		= src
 

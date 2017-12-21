@@ -101,7 +101,7 @@ int					main(int ac, char **av, char **env_o)
 	while (get_line(read_mode, &cli, &history) > 0)
 	{
 		read_mode ? tcsetattr(0, TCSADRAIN, &termcap_21sh[1]) : 0;
-		exec_cli(cli, env);
+		exec_cli_lst(cli, env);
 		signal(SIGINT, &signal_handler);
 		write_prompt(env);
 		cli ? free(cli) : 0;
