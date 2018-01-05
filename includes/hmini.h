@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/05 16:45:32 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/05 17:58:37 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ char						*line_env_interpret(char *inp, t_env *list);
 void						derror(char *s1, char *s2, char *s3, int stats);
 
 char						**splitter(char *inp);
+char						**splitter_alt(char *inp);
 
 int							ft_error(char *inp, int nerror);
 
