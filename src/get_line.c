@@ -49,11 +49,7 @@ unsigned int		special_act(char buffer[6], char **scribe,
 		(buffer[0] == 12 && buffer[1] == 0))
 	{
 		if (buffer[0] == 12 && buffer[1] == 0)
-		{
-			write(1, "\033[2J\033[1;1H", 10);
-			write_prompt(g_backup_env);
-			ft_putstr(*scribe);
-		}
+			clear_scrn(*scribe, cursor);
 		else if (buffer[2] == 67 || buffer[2] == 68)
 			return (k_arrows_sides(buffer[2] - 67, cursor, *scribe));
 		else if (buffer[2] == 72 || buffer[2] == 70)

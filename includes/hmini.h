@@ -190,6 +190,8 @@ t_histo						*new_cmd_histo(int readm, t_histo **histo);
 void						move_forw(int i);
 void						move_back(int i);
 
+void						clear_scrn(char *cli, unsigned int cursor_pos);
+
 void						exec_cli_lst(char *cli, t_env *env);
 void						exec_cli(char *cli, t_env *env);
 void						grow_ast(char *i, t_env *e);
