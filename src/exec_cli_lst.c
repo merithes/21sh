@@ -1,30 +1,19 @@
 #include "hmini.h"
 
-int					detect_delimiters(char *inp)
+int					detect_delimiters(char **inp)
 {
 	int				i;
 
 	i = -1;
-	while (inp[++i] != 0)
+	while (inp[++i] != NULL)
 	{
-		if (inp[i] == '\\')
-		{
-			if (inp[i + 1] == '&' && inp[i + 2] != '&')
-				i += 2;
-			else if (inp[i + 1] == '&' && inp[i + 2] == '&')
-				i += 3;
-			else if (inp[i + 1] == ';')
-				i += 2;
-			else if (inp[i + 1] == '|')
-				i += 2;
-			else if (inp[i + 1] == '|' || inp[i + 2] == '|')
-				i += 3;
-		}
-		if (inp[i] == '&')
+		if (!ft_strcmp("|", inp[i]))
 			return (1);
-		else if (inp[i] == '|')
+		else if (!ft_strcmp(";", inp[i]))
 			return (1);
-		else if (inp[i] == ';')
+		else if (!ft_strcmp("||", inp[i]))
+			return (1);
+		else if (!ft_strcmp("&&", inp[i]))
 			return (1);
 	}
 	return (0);
@@ -35,11 +24,10 @@ void				exec_cli_lst(char *inp, t_env *env)
 	t_listc			*tmp;
 	char			**split_alt;
 
-	split_alt = splitter_alt
-//	printf("fe\n");
-	if (!detect_delimiters(inp))
+	split_alt = splitter_alt(inp);
+	if (split_alt != NULL && !detect_delimiters(split_alt))
 	{
-//	printf("fa\n");
+		free_rec_char(split_alt);
 		exec_cli(inp, env);
 	}
 	else

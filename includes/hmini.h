@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/05 17:58:37 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/05 18:47:13 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct				s_histo
 
 typedef struct termios		t_ermios;
 
+/*													DEL?
 typedef struct				s_ast
 {
 	void					*left;
@@ -100,6 +101,7 @@ typedef struct				s_ast
 	int						type;
 	int						branch_types;
 }							t_ast;
+*/
 
 typedef struct				s_list_complete
 {
@@ -196,7 +198,7 @@ void						clear_scrn(char *cli, unsigned int cursor_pos);
 void						exec_cli_lst(char *cli, t_env *env);
 void						exec_cli(char *cli, t_env *env);
 void						grow_ast(char *i, t_env *e);
-t_listc						*cut_string_delimiters(char *inp);
+t_listc						*cut_string_delimiters(char **inp);
 void						exec_lst(t_listc *inp, t_env *env);
 
 #endif

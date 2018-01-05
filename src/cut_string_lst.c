@@ -9,7 +9,7 @@ t_listc				*create_chain_link(void)
 	outp->prev = NULL;
 	outp->next = NULL;
 	outp->cont = NULL;
-	outp->infos = 0;
+	outp->sep_type = 0;
 	return (outp);
 }
 
@@ -44,9 +44,6 @@ int					delim_finder(char *cli)
 }
 
 void				craft_chain(t_listc *outp, char *cli)
-
-
-
 {
 	int				i;
 
@@ -57,25 +54,25 @@ void				craft_chain(t_listc *outp, char *cli)
 			ft_error("Memory Allocation Failed.\n", -1);
 		ft_strncpy(outp->cont, cli, i);
 		if (cli[i] == ';')
-			outp->infos = SEPA;
+			outp->sep_type = SEPA;
 		else if (cli[i] == '|' && cli[i + 1] != '|')
-			outp->infos = OR;
+			outp->sep_type = OR;
 		else if (cli[i] == '&' && cli[i + 1] != '&')
-			outp->infos = AND;
+			outp->sep_type = AND;
 		else if (cli[i] == '|')
-			outp->infos = PIPE;
+			outp->sep_type = PIPE;
 		else if (cli[i] == '&')
-			outp->infos = BCKG;
+			outp->sep_type = BCKG;
 		outp->next = create_chain_link();
 		outp->next->prev = outp;
-		if (!outp->infos)
+		if (!outp->sep_type)
 			break ;
 		outp = outp->next;
 		cli += i + 1;
 	}
 }
 
-t_listc				*cut_string_delimiters(char *inp)
+t_listc				*cut_string_delimiters(char **inp)
 {
 	t_listc			*outp;
 
@@ -85,7 +82,7 @@ t_listc				*cut_string_delimiters(char *inp)
 	craft_chain(outp, inp);
 /*	while (outp)
 	{
-		printf("%d\t%s\n", outp->infos, outp->cont);
+		printf("%d\t%s\n", outp->sep_type, outp->cont);
 		outp = outp->next;
 	}*/
 	return (outp);

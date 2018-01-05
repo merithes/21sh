@@ -6,13 +6,13 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 04:06:33 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/05 15:30:02 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/05 18:45:49 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hmini.h"
 
-int					quotes_count(char *inp)
+static int			quotes_count(char *inp)
 {
 	int				i;
 	int				count;
@@ -31,7 +31,7 @@ int					quotes_count(char *inp)
 	return (count);
 }
 
-void				get_quoted_wd(char* inp, char *outp,
+static void			get_quoted_wd(char* inp, char *outp,
 						int i_inp[], int io_inp[])
 {
 	int				i;
@@ -51,7 +51,7 @@ void				get_quoted_wd(char* inp, char *outp,
 	*io_inp = io;
 }
 
-char				*create_wd(char *inp, int qty)
+static char			*create_wd(char *inp, int qty)
 {
 	char			*outp;
 	int				i;
@@ -73,7 +73,7 @@ char				*create_wd(char *inp, int qty)
 	return (outp);
 }
 
-int					get_wd(char *inp, char **to_set)
+static int			get_wd(char *inp, char **to_set)
 {
 	int				i;
 
