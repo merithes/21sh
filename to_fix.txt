@@ -6,6 +6,7 @@ tabs + backdel won't work correctly
 Resolved:
 You're not supposed to print tabs, duh.
 
+___-_________________________________________________________________________-__
 typing keys more than there is space to on a single line will
 work, it will go to the next line, but it's not possible to
 go back to the previous line, may it be with arrows or backdel
@@ -14,17 +15,20 @@ go back to the previous line, may it be with arrows or backdel
 Resolved:
 Issue only occuring on Linux (Fedora, Terminator). Unexisting termcap ?
 
+___-_________________________________________________________________________-__
 entering a blank line will add it to the cmd history.Not supposed to happen
 	|_>	I simply append a copy of the current cmdl to the history chained list.
 		I should check if the actual cmdl is empty (or contains only spaces)
 Resolved:
 Added a check before registering the history.
 
+___-_________________________________________________________________________-__
 segfault on crl+d
 	|_>	Wrong free when buffer is empty (or filled with spaces) on 1st return
 Resolved:
 won't free if here is no previous history element.
 
+___-_________________________________________________________________________-__
 when going back using left arrow, pressing space will re-print characters of
 the precedent string. Not supposed to happen(don't you say) but works in every
 case (not hard to reproduce)

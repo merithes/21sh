@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2017/12/07 20:12:20 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/05 16:45:32 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ typedef struct				s_histo
 	char					*cont;
 	struct s_histo			*prev;
 	struct s_histo			*next;
-	int						swit;
 }							t_histo;
 
 typedef struct termios		t_ermios;
@@ -104,8 +103,10 @@ typedef struct				s_ast
 
 typedef struct				s_list_complete
 {
-	int						infos;
+	int						sep_type;
 	char					*cont;
+	int						redir[3];
+	char					*file;
 	struct s_list_complete	*prev;
 	struct s_list_complete	*next;
 }							t_listc;
