@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/05 16:45:29 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/05 19:12:36 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,15 @@ int					filter_cli(char **arr, char fp[], char *cli, t_env *i_env)
 	return (bin);
 }
 
-void				exec_cli(char *cli, t_env *i_env)
+void				exec_cli(char **cli, t_env *i_env)
 {
 	char			fullpath[MAXPATHLEN * 2 + 1];
 	char			**arr;
 	char			**env;
 	int				bin;
 
-	if (!(arr = splitter(cli)))
-		return ;
 	if ((bin = filter_cli(arr, fullpath, cli, i_env)) < 0)
-	{
-		free_rec_char(arr);
 		return ;
-	}
 	if (!bin && fullpath[0] && !fork())
 	{
 		signal(SIGINT, SIG_DFL);
@@ -79,7 +74,6 @@ void				exec_cli(char *cli, t_env *i_env)
 	}
 	(!bin && fullpath[0]) ? signal(SIGINT, &signal_newline) : 0;
 	wait(NULL);
-	free_rec_char(arr);
 }
 
 int					main(int ac, char **av, char **env_o)

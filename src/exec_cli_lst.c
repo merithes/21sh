@@ -30,9 +30,10 @@ void				exec_cli_lst(char *inp, t_env *env)
 		free_rec_char(split_alt);
 		exec_cli(inp, env);
 	}
-	else
+	else if (split_alt != NULL)
 	{
-		tmp = cut_string_delimiters(inp);
+		tmp = cut_string_delimiters(split_alt);
 		exec_lst(tmp, env);
 	}
+	split_alt ? free(split_alt) : 0;
 }

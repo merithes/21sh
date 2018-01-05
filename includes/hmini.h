@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/05 18:47:13 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/05 19:12:27 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ typedef struct				s_ast
 typedef struct				s_list_complete
 {
 	int						sep_type;
-	char					*cont;
+	char					**cont;
 	int						redir[3];
 	char					*file;
 	struct s_list_complete	*prev;
