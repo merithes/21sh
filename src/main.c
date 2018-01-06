@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/05 19:12:36 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/06 20:42:26 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,23 @@ int					filter_cli(char **arr, char fp[], char *cli, t_env *i_env)
 	return (bin);
 }
 
-void				exec_cli(char **cli, t_env *i_env)
+void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 {
 	char			fullpath[MAXPATHLEN * 2 + 1];
-	char			**arr;
 	char			**env;
 	int				bin;
 
-	if ((bin = filter_cli(arr, fullpath, cli, i_env)) < 0)
+	int i = -1;
+	//printf("|%s|\n", cli);
+	while (full_detail->cont[++i])
+		//printf("\\%d:%s|\n", i, full_detail->cont[i]);
+	if ((bin = filter_cli(full_detail->cont, fullpath, cli, i_env)) < 0)
 		return ;
 	if (!bin && fullpath[0] && !fork())
 	{
 		signal(SIGINT, SIG_DFL);
 		env = rmk_env(i_env);
-		execve(fullpath, arr, env);
+		execve(fullpath, full_detail->cont, env);
 		access(fullpath, X_OK) ?
 		pcat("minishell: ", fullpath, ": Permission denied.", 1) :
 		pcat("minishell: ", fullpath, NEOB, 1);
@@ -94,13 +97,13 @@ int					main(int ac, char **av, char **env_o)
 	signal(SIGINT, &signal_handler);
 	while (get_line(read_mode, &cli, &history) > 0)
 	{
-		read_mode ? tcsetattr(0, TCSADRAIN, &termcap_21sh[1]) : 0;
+		read_mode ? tcsetattr(0, TCSADRAIN, &g_termcap_21sh[1]) : 0;
 		exec_cli_lst(cli, env);
 		signal(SIGINT, &signal_handler);
 		write_prompt(env);
 		cli ? free(cli) : 0;
 	}
-	read_mode ? tcsetattr(0, TCSADRAIN, &termcap_21sh[1]) : 0;
-	printf("End of transmission\n");
+	read_mode ? tcsetattr(0, TCSADRAIN, &g_termcap_21sh[1]) : 0;
+	//printf("End of transmission\n");
 	return (0);
 }

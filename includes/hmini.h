@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/05 19:12:27 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/06 16:58:18 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 /*
 ** DEFINED VALUES
-** ==============
+** =============================================================================
 */
 
 # define EXIT 55
@@ -61,14 +61,18 @@
 # define AND 1 << 4
 # define BCKG 1 << 5
 
+# define F_NONE 0
+# define F_MAIN_ONLY 1
+# define F_ALL 1 << 1
+
 /*
 ** /!\SYSTEM DEPENDANT /!\
-** ============================================================================
+** =============================================================================
 */
 
 /*
 ** MACROS
-** ============================================================================
+** =============================================================================
 */
 
 /*
@@ -115,14 +119,15 @@ typedef struct				s_list_complete
 
 /*
 ** GLOBALS
+** =============================================================================
 */
 
-t_ermios					termcap_21sh[2];
+t_ermios					g_termcap_21sh[2];
 t_env						*g_backup_env;
 
 /*
 ** DECLARATIONS
-** ============================================================================
+** =============================================================================
 */
 
 void						write_prompt(t_env *env);
@@ -155,6 +160,7 @@ t_env						*create_root_var(void);
 void						increment_shlvl(t_env *root);
 
 void						free_list(t_env *root);
+void						free_rec_listc(t_listc *inp, int free_cont);
 
 int							edit_var_content(t_env *elem,
 								char *cont, int booley);
@@ -196,9 +202,14 @@ void						move_back(int i);
 void						clear_scrn(char *cli, unsigned int cursor_pos);
 
 void						exec_cli_lst(char *cli, t_env *env);
-void						exec_cli(char *cli, t_env *env);
+void						exec_cli(char *cli, t_listc *full_details,
+								t_env *env);
 void						grow_ast(char *i, t_env *e);
 t_listc						*cut_string_delimiters(char **inp);
 void						exec_lst(t_listc *inp, t_env *env);
+
+t_listc						*create_chain_link(t_listc *prevv);
+
+char						**set_link(t_listc *link, char **cli_cut);
 
 #endif

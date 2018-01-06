@@ -101,7 +101,7 @@ int					get_line(int read_mode, char **to_fill, t_histo **history)
 {
 	int				tmp;
 
-	read_mode ? tcsetattr(0, TCSADRAIN, &termcap_21sh[0]) : 0;
+	read_mode ? tcsetattr(0, TCSADRAIN, &g_termcap_21sh[0]) : 0;
 	*history = new_cmd_histo(read_mode, history);
 	if (read_mode)
 	{

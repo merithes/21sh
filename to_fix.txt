@@ -36,3 +36,10 @@ case (not hard to reproduce)
 		bug, just a forgotten feature. Doesn't work as instended since it
 		wasn't intended in the first place
 Resolved.
+___-_________________________________________________________________________-__
+seprators issue: "ls ; ls" works as intended, but "ls ;ls" doesn't detect the
+";" due to the fact that it is attached to the "ls".
+	|_> Will be a recuring problem when we add the other types of separators
+		too. I suggest modifying the arguments list in "exec_cli_lst" after the
+		first "splitter_alt" function call, in order to detect such things 
+		before/while  doing cli expansion.

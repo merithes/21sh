@@ -90,6 +90,6 @@ void				exit_bin(char **arr, char *cmd, t_env *env)
 		free(arr[i++]);
 	arr ? free(arr) : 0;
 	cmd ? free(cmd) : 0;
-	tcsetattr(0, TCSADRAIN, &termcap_21sh[1]);
+	tcsetattr(0, TCSADRAIN, &g_termcap_21sh[1]);
 	exit(0);
 }

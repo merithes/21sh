@@ -54,16 +54,16 @@ int					terminit(t_env *env)
 		return (terror(-2));
 	if (!(cursor->cont) || (err = tgetent(NULL, cursor->cont)) != 1)
 		return (terror(err));
-	if (tcgetattr(0, &termcap_21sh[0]) == -1 ||
-		tcgetattr(0, &termcap_21sh[1]) == -1)
+	if (tcgetattr(0, &g_termcap_21sh[0]) == -1 ||
+		tcgetattr(0, &g_termcap_21sh[1]) == -1)
 		return (terror(-3));
-	termcap_21sh[0].c_lflag &=
+	g_termcap_21sh[0].c_lflag &=
 		~((unsigned long)(ECHO | ECHOE | ECHOK | ECHONL | ICANON));
-	termcap_21sh[0].c_cc[VMIN] = 1;
-	termcap_21sh[0].c_cc[VTIME] = 0;
+	g_termcap_21sh[0].c_cc[VMIN] = 1;
+	g_termcap_21sh[0].c_cc[VTIME] = 0;
 	if (tc_check() < 0)
 		return (terror(-4));
-	if (tcsetattr(0, TCSADRAIN, &termcap_21sh[0]) == -1)
+	if (tcsetattr(0, TCSADRAIN, &g_termcap_21sh[0]) == -1)
 		return (terror(-5));
 	return (1);
 }
