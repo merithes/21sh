@@ -6,7 +6,7 @@
 #    By: vboivin <marvin42.fr>                     +#+   +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/17 14:50:04 by vboivin           #+#    #+#              #
-#    Updated: 2018/01/06 17:14:20 by vboivin          ###   ########.fr        #
+#    Updated: 2018/01/08 13:52:47 by vboivin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCS 		=	main.c env.c init_env.c manage_env.c prompt.c command.c		\
 				ft_error.c k_arrows_sides.c k_del.c k_home_end.c \
 				k_arrows_histo.c k_arrows_skipwd.c move_cursor.c exec_cli_lst.c\
 				cut_string_lst.c exec_lst.c clear_scrn.c splitter_alt.c \
-				set_link.c free_rec_listc.c
+				set_link.c free_rec_listc.c detect_delimiters.c
 DIR_SRC		= $(addprefix $(SRCPATH)/, $(SRCS))
 SRCPATH		= src
 

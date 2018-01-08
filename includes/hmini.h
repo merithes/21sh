@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/06 16:58:18 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/08 13:52:34 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,5 +211,8 @@ void						exec_lst(t_listc *inp, t_env *env);
 t_listc						*create_chain_link(t_listc *prevv);
 
 char						**set_link(t_listc *link, char **cli_cut);
+
+int							detect_delimiters(char **inp);
+int							detect_bad_delimiters(char **inp);
 
 #endif
