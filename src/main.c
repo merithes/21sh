@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2018/01/08 16:51:10 by vboivin          ###   ########.fr       */
+=======
+/*   Updated: 2018/01/08 18:30:29 by jamerlin         ###   ########.fr       */
+>>>>>>> edc69fa1ff138503462bfa7df4d18fd873691fc2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +63,18 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	char			**env;
 	int				bin;
 
+<<<<<<< HEAD
 	//printf("|%s|\n", cli);
+=======
+>>>>>>> edc69fa1ff138503462bfa7df4d18fd873691fc2
 	if ((bin = filter_cli(full_detail->cont, fullpath, cli, i_env)) < 0)
 		return ;
 	if (!bin && fullpath[0] && !fork())
 	{
 		signal(SIGINT, SIG_DFL);
 		env = rmk_env(i_env);
+/*		test(full_detail);
+		redirect(full_detail);*/
 		execve(fullpath, full_detail->cont, env);
 		access(fullpath, X_OK) ?
 		pcat("minishell: ", fullpath, ": Permission denied.", 1) :

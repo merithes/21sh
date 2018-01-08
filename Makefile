@@ -3,10 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vboivin <marvin42.fr>                     +#+   +:+       +#+         #
+#    By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/17 14:50:04 by vboivin           #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2018/01/08 13:52:47 by vboivin          ###   ########.fr        #
+=======
+#    Updated: 2018/01/08 16:19:51 by jamerlin         ###   ########.fr        #
+>>>>>>> edc69fa1ff138503462bfa7df4d18fd873691fc2
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +27,11 @@ SRCS 		=	main.c env.c init_env.c manage_env.c prompt.c command.c		\
 				ft_error.c k_arrows_sides.c k_del.c k_home_end.c \
 				k_arrows_histo.c k_arrows_skipwd.c move_cursor.c exec_cli_lst.c\
 				cut_string_lst.c exec_lst.c clear_scrn.c splitter_alt.c \
+<<<<<<< HEAD
 				set_link.c free_rec_listc.c detect_delimiters.c
+=======
+				set_link.c free_rec_listc.c redir.c
+>>>>>>> edc69fa1ff138503462bfa7df4d18fd873691fc2
 DIR_SRC		= $(addprefix $(SRCPATH)/, $(SRCS))
 SRCPATH		= src
 

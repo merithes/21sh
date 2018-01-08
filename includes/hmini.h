@@ -1,12 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   hmini.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2018/01/08 14:14:59 by vboivin          ###   ########.fr       */
+=======
+/*   Updated: 2018/01/08 16:34:17 by jamerlin         ###   ########.fr       */
+>>>>>>> edc69fa1ff138503462bfa7df4d18fd873691fc2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +111,19 @@ typedef struct				s_ast
 }							t_ast;
 */
 
+/*
+** STRUCT T_LISTC
+** sep_type = type of tokken
+** cont = processus
+** redir[3] = 0 = fd redir / 1 = type of redir (0 "<" / 1 ">" / 2 "<<" / 3 ">>") / 2 = fd receptor
+** *file = file receptor
+*/
 typedef struct				s_list_complete
 {
 	int						sep_type;
 	char					**cont;
 	int						redir[3];
-	char					*file;
+	char					*file; 
 	struct s_list_complete	*prev;
 	struct s_list_complete	*next;
 }							t_listc;
@@ -211,8 +222,13 @@ void						exec_lst(t_listc *inp, t_env *env);
 t_listc						*create_chain_link(t_listc *prevv);
 
 char						**set_link(t_listc *link, char **cli_cut);
+<<<<<<< HEAD
 
 int							detect_delimiters(char **inp);
 int							detect_bad_delimiters(char ***inp);
 
+=======
+void    test(t_listc *cmd);
+void    redirect(t_listc *cmd);
+>>>>>>> edc69fa1ff138503462bfa7df4d18fd873691fc2
 #endif
