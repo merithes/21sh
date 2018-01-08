@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 14:49:03 by vboivin           #+#    #+#             */
-/*   Updated: 2017/12/02 13:47:38 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/08 14:23:23 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void				ft_foreach(int *arr, int length, void (*f)(int));
 void				ft_swap(int *a, int *b);
 unsigned int		ft_intlen(int nb);
 long int			ft_lintlen(long int nb);
+int					ft_pointertablen(char **inp);
 
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
