@@ -23,7 +23,7 @@ void				exec_cli_lst(char *inp, t_env *env)
 
 	tmp = NULL;
 	split_alt = splitter_alt(inp);
-	detect_bad_delimiters(split_alt);
+	detect_bad_delimiters(&split_alt);
 	if (split_alt != NULL && !detect_delimiters(split_alt))
 	{
 //		printf("a\n");

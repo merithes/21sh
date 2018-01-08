@@ -6,11 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/01/08 16:51:10 by vboivin          ###   ########.fr       */
-=======
-/*   Updated: 2018/01/08 18:30:29 by jamerlin         ###   ########.fr       */
->>>>>>> edc69fa1ff138503462bfa7df4d18fd873691fc2
+/*   Updated: 2018/01/08 18:36:20 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +59,6 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	char			**env;
 	int				bin;
 
-<<<<<<< HEAD
-	//printf("|%s|\n", cli);
-=======
->>>>>>> edc69fa1ff138503462bfa7df4d18fd873691fc2
 	if ((bin = filter_cli(full_detail->cont, fullpath, cli, i_env)) < 0)
 		return ;
 	if (!bin && fullpath[0] && !fork())

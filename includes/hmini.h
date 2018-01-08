@@ -6,11 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/01/08 14:14:59 by vboivin          ###   ########.fr       */
-=======
-/*   Updated: 2018/01/08 16:34:17 by jamerlin         ###   ########.fr       */
->>>>>>> edc69fa1ff138503462bfa7df4d18fd873691fc2
+/*   Updated: 2018/01/08 18:36:29 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,13 +218,10 @@ void						exec_lst(t_listc *inp, t_env *env);
 t_listc						*create_chain_link(t_listc *prevv);
 
 char						**set_link(t_listc *link, char **cli_cut);
-<<<<<<< HEAD
 
 int							detect_delimiters(char **inp);
 int							detect_bad_delimiters(char ***inp);
 
-=======
 void    test(t_listc *cmd);
 void    redirect(t_listc *cmd);
->>>>>>> edc69fa1ff138503462bfa7df4d18fd873691fc2
 #endif
