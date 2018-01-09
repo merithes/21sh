@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/08 18:36:29 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/09 19:31:08 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,6 @@
 
 # define MAX_HISTO 25
 
-# define BACKMX "4294967295"
-
-# define N_ENV "Environment received empty. Creating a new one.\n"
-# define DEF_PROMPT "[\\s]\\u> "
-# define DEF_PATH "/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin"
-
-# define NSFOD " No such file or directory\n"
-# define NEOB " File doesn't exist or isn't a binary"
-# define NSC " No such command\n"
 
 # define NONE 0
 # define PIPE 1 << 1
@@ -74,6 +65,16 @@
 ** MACROS
 ** =============================================================================
 */
+
+# define N_ENV "Environment received empty. Creating a new one.\n"
+# define DEF_PROMPT "[\\s]\\u> "
+# define DEF_PATH "/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin"
+
+# define NSFOD " No such file or directory\n"
+# define NEOB " File doesn't exist or isn't a binary"
+# define NSC " No such command\n"
+# define BACKMX "4294967295"
+# define MAF "Memory Allocation Failed.\n"
 
 /*
 ** TYPEDEFS
@@ -221,6 +222,10 @@ char						**set_link(t_listc *link, char **cli_cut);
 
 int							detect_delimiters(char **inp);
 int							detect_bad_delimiters(char ***inp);
+
+int							contains_delims(char *inp);
+
+t_list						*convert_inp_lst(char **inp);
 
 void    test(t_listc *cmd);
 void    redirect(t_listc *cmd);

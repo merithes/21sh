@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/02 15:52:10 by vboivin           #+#    #+#             */
-/*   Updated: 2017/12/09 11:22:00 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/09 16:11:03 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char				*add_char(char buffer[6], unsigned int cursor, char *scribe)
 	write(1, &buffer[0], 1);
 	len = ft_strlen(scribe);
 	if (!(tmp = malloc(len + 2)))
-		ft_error("Failed Memory Allocation\n", -1);
+		ft_error(MAF, -1);
 	ft_bzero(tmp, len + 2);
 	ft_strncpy(tmp, scribe, cursor);
 	tmp[cursor] = buffer[0];

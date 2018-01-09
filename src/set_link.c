@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 14:23:57 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/06 20:44:29 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/09 16:12:24 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void				set_cont(t_listc *lnk, char **cont_main, int i)
 
 	cursor = -1;
 	if (!(tmp_cont = malloc(sizeof(char *) * i + 1)))
-		ft_error("Memory Allocation Failed.\n", -1);
+		ft_error(MAF, -1);
 	ft_bzero(tmp_cont, sizeof(char *) * i + 1);
 	lnk->cont = tmp_cont;
 	while (i > ++cursor)

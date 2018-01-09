@@ -1,59 +1,83 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   detect_delimiters.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/01/09 15:38:52 by vboivin           #+#    #+#             */
+/*   Updated: 2018/01/09 19:32:46 by vboivin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "hmini.h"
 
-int					cnt_splitters(char *inp)
+int					check_separator_microscale(char *inp, char *to_check)
+{
+	long long int	i;
+	char			*tmp;
+
+	if (!ft_strcmp(inp, to_check))
+		return (0);
+	if ((tmp = ft_strstr(inp, to_check)) != NULL)
+	{
+		i = tmp - inp;
+		if (i <= 0 || inp[i - 1] == '\\')
+			return (0);
+		return (1);
+	}
+	return (0);
+}
+
+int					contains_delims(char *inp)
+{
+	if (inp[0] != '\"' || inp[0] != '\'')
+	{
+		if (check_separator_microscale(inp, ";") ||
+			check_separator_microscale(inp, "|") ||
+			check_separator_microscale(inp, "&") ||
+			check_separator_microscale(inp, "||") ||
+			check_separator_microscale(inp, "&&"))
+			return (1);
+	}
+	return (0);
+}
+
+int					check_separators_bigscale(char **inp)
 {
 	int				i;
-	int				count;
 
-	count = 0;
 	i = -1;
-	if (inp[0] == '\'' || inp[0] == '\"' || !ft_strcmp(inp, ";") ||
-		!ft_strcmp(inp, "|") || !ft_strcmp(inp, "&") || !ft_strcmp(inp, "||") ||
-			!ft_strcmp(inp, "&&"))
-		return (0);
 	while (inp[++i])
-	{
-	printf("a\n");
-		if (inp[i] == ';')
-			count++;
-		else if (inp[i] == '|' || inp[i] == '&')
-		{
-			if ((inp[i + 1] == '|' && inp[i] == '|')
-				|| (inp[i + 1] == '|' && inp[i] == '&'))
-				i++;
-			count++;
-		}
-	printf("b\n");
-	}
-	printf("c\n");
-	return (count);
+		if (contains_delims(inp[i]))
+			return (1);
+	return (0);
+}
+
+char				**recompress_lst(t_list *lst)
+{
+	char			**outp;
+	int				len;
+	t_list			*cursor;
+
+	len = 0;
+	cursor = lst;
+	if (!(outp = malloc(sizeof(char *) * (len + 1))))
+		ft_error(MAF, -1);
+	//ADD ACTUAL RECOMPRESSION HERE============================================
+	return (outp);
 }
 
 int					detect_bad_delimiters(char ***inp)
 {
-	int				i;
-	int				count;
-	char			**re_splitted;
+	t_list			*list;
 
-	i = -1;
-	count = 0;
-//	printf("truc\n");
-	if (!*inp)
-		return (-1);
-	while (*inp[++i])
-	{
-//		printf("1a\n");
-		count += cnt_splitters(*inp[i]);
-//		printf("1b:%d\n%p:%s\n", i, *inp[i], *inp[i]);
-	}
-	printf("truc\n");
-	if (!count)
+	if (!check_separators_bigscale(*inp))
 		return (0);
-	if (!(re_splitted = malloc(sizeof(char *) *
-		(ft_pointertablen(*inp) + count * 2))))
-		ft_error("FailedMemory Allocation.\n", -1);
-	printf("truc\n");
-	return(1);
+	list = convert_inp_lst(*inp);
+	free(*inp);
+	*inp = recompress_lst(list);
+	return (0);
 }
 
 int					detect_delimiters(char **inp)

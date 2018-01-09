@@ -5,7 +5,7 @@ t_histo				*histo_init(void)
 	t_histo			*outp;
 
 	if (!(outp = malloc(sizeof(t_histo))))
-		ft_error("Failed Memory Allocation\n", -1);
+		ft_error(MAF, -1);
 	outp->cont = NULL;
 	outp->prev = NULL;
 	outp->next = NULL;
@@ -20,7 +20,7 @@ t_histo				*new_cmd_histo(int read_mode, t_histo **history)
 	if (!read_mode)
 		return (NULL);
 	if (!(new_cmd = histo_init()))
-		ft_error("Failed Memory Allocation\n", -1);
+		ft_error(MAF, -1);
 	cursor = *history;
 	if (!(*history))
 		return (new_cmd);

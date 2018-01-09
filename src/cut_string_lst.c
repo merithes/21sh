@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 14:23:57 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/06 20:56:51 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/09 16:11:21 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_listc				*create_chain_link(t_listc *prevv)
 	t_listc			*outp;
 
 	if (!(outp = malloc(sizeof(t_listc))))
-		ft_error("Memory allocation failed.\n", -1);
+		ft_error(MAF, -1);
 	outp->prev = prevv;
 	outp->next = NULL;
 	outp->cont = NULL;
