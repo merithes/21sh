@@ -23,7 +23,18 @@ void				exec_cli_lst(char *inp, t_env *env)
 
 	tmp = NULL;
 	split_alt = splitter_alt(inp);
-	detect_bad_delimiters(&split_alt);
+/*	printf("%p\n", split_alt);
+	printf("%p:%s\n", split_alt[0], split_alt[0]);
+	if(split_alt[1])
+	printf("%p:%s\n", split_alt[1], split_alt[1]);
+	if(split_alt[2])
+	printf("%p:%s\n", split_alt[2], split_alt[2]);
+	printf("%p\n", split_alt[3]);
+	int i ;
+	i = -1 ;
+	while (split_alt[++i]) printf("|%s|\n", split_alt[i]);
+	printf("WOOT\n");*/
+	//detect_bad_delimiters(&split_alt);
 	if (split_alt != NULL && !detect_delimiters(split_alt))
 	{
 //		printf("a\n");
