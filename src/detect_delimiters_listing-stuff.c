@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 15:39:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/09 19:31:26 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/10 14:35:35 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ int					length_until_delim(char *inp)
 		if (inp[i] == '\\')
 			i++;
 		else if (inp[i] == '&' || inp[i] == '|' || inp[i] == ';')
+		{
+//			printf("returning %d because %c is a delim in %s\n", i, inp[i], inp);
 			return (i);
+		}
 	}
 	return (i);
 }
@@ -42,7 +45,7 @@ int					add_delim(char *inp, t_list *cursor)
 {
 	if (ft_strstr(inp, "||") == inp || ft_strstr(inp, "&&") == inp)
 	{
-		if (ft_strstr(inp, "||"))
+		if (ft_strstr(inp, "||") == inp)
 			append_newlink("||", cursor);
 		else
 			append_newlink("&&", cursor);
@@ -63,6 +66,7 @@ int					add_simple_command(char *inp, t_list *cursor, int len)
 
 	ft_bzero(tmp, len + 1);
 	ft_strncpy(tmp, inp, len);
+//	printf("adding %s\n", tmp);
 	append_newlink(tmp, cursor);
 	return (len);
 }
@@ -72,13 +76,17 @@ void				cut_and_stock(char *inp, t_list *cursor)
 	int				len;
 	int				i;
 
-	i = -1;
-	while (inp[++i])
+	i = 0;
+	while (inp[i])
 	{
 		if (!contains_delims(inp + i))
-			break ;
-		if ((len = length_until_delim(inp)) == 0)
+			i += add_simple_command(inp + i, cursor, ft_strlen(inp + i));
+		else if ((len = length_until_delim(inp + i)) == 0)
+		{
+//			printf("delim_here:\t%s\t%d|", inp + i, i);
 			i += add_delim(inp + i, cursor);
+//			printf("%d\n", i);
+		}
 		else
 			i += add_simple_command(inp + i, cursor, len);
 	}
@@ -87,21 +95,23 @@ void				cut_and_stock(char *inp, t_list *cursor)
 t_list				*convert_inp_lst(char **inp)
 {
 	int				i;
-	t_list			*outp;
+	t_list			outp[1];
 	t_list			*cursor;
 
 	i = -1;
-	if (!(outp = ft_lstnew(NULL, 0)))
-		ft_error(MAF, -1);
+	outp->next = NULL;
 	cursor = outp;
 	while (inp[++i] != NULL)
 	{
 		if (contains_delims(inp[i]))
+		{
+//			printf("analyzing inp[%d]:\t%s\n", i, inp[i]);
 			cut_and_stock(inp[i], cursor);
+		}
 		else
 			append_newlink(inp[i], cursor);
 		while (cursor->next)
 			cursor = cursor->next;
 	}
-	return (outp);
+	return (outp->next);
 }
