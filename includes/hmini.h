@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/10 13:12:43 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/10 18:44:57 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ t_listc						*create_chain_link(t_listc *prevv);
 char						**set_link(t_listc *link, char **cli_cut);
 
 int							detect_delimiters(char **inp);
-int							detect_bad_delimiters(char ***inp);
+char						**detect_bad_delimiters(char **inp);
 
 int							contains_delims(char *inp);
 

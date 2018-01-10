@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 15:39:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/10 14:35:35 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/10 17:43:33 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void				cut_and_stock(char *inp, t_list *cursor)
 	i = 0;
 	while (inp[i])
 	{
+//		printf("testing %s at %d for %s\n", inp, i, inp + i);
 		if (!contains_delims(inp + i))
 			i += add_simple_command(inp + i, cursor, ft_strlen(inp + i));
 		else if ((len = length_until_delim(inp + i)) == 0)
@@ -89,7 +90,9 @@ void				cut_and_stock(char *inp, t_list *cursor)
 		}
 		else
 			i += add_simple_command(inp + i, cursor, len);
+//		printf("al\n");
 	}
+//	printf("out\n");
 }
 
 t_list				*convert_inp_lst(char **inp)
@@ -104,14 +107,18 @@ t_list				*convert_inp_lst(char **inp)
 	while (inp[++i] != NULL)
 	{
 		if (contains_delims(inp[i]))
-		{
-//			printf("analyzing inp[%d]:\t%s\n", i, inp[i]);
 			cut_and_stock(inp[i], cursor);
-		}
 		else
 			append_newlink(inp[i], cursor);
 		while (cursor->next)
 			cursor = cursor->next;
 	}
+	cursor = outp->next;
+	while (cursor)
+	{
+//		printf("%s\n", (char *)cursor->content);
+		cursor = cursor->next;
+	}
+//	printf("outss\n");
 	return (outp->next);
 }
