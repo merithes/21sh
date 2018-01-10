@@ -34,6 +34,8 @@ void				exec_cli_lst(char *inp, t_env *env)
 	i = -1 ;
 	while (split_alt[++i]) printf("|%s|\n", split_alt[i]);
 	printf("WOOT\n");*/
+	char **split_alt_2=split_alt;
+	int i=-1;while(split_alt_2[++i])printf("%s\n", split_alt_2[i]);
 	detect_bad_delimiters(&split_alt);
 	if (split_alt != NULL && !detect_delimiters(split_alt))
 	{
