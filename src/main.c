@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/10 18:52:29 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/11 15:05:04 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 		access(fullpath, X_OK) ?
 		pcat("minishell: ", fullpath, ": Permission denied.", 1) :
 		pcat("minishell: ", fullpath, NEOB, 1);
-		exit(0);
+		exit(-1);
 	}
 	(!bin && fullpath[0]) ? signal(SIGINT, &signal_newline) : 0;
 	wait(NULL);
@@ -96,7 +96,6 @@ int					main(int ac, char **av, char **env_o)
 	while (get_line(read_mode, &cli, &history) > 0)
 	{
 		read_mode ? tcsetattr(0, TCSADRAIN, &g_termcap_21sh[1]) : 0;
-		printf("%s\n", cli);
 		exec_cli_lst(cli, env);
 		signal(SIGINT, &signal_handler);
 		write_prompt(env);

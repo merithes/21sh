@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 14:23:57 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/09 16:12:24 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/11 18:12:05 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char				**set_link(t_listc *link, char **cli)
 			break ;
 	set_sep(link, cli[i]);
 	set_cont(link, cli, i);
+//	set_redirs(link);
 //	printf("<>%s\n", link->cont[0]);
 //	printf("/\\%d:%s\n", i, cli[i + 1]);
 	cli += i + 1;

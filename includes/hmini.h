@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/10 18:44:57 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/11 15:16:16 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,30 +97,21 @@ typedef struct				s_histo
 
 typedef struct termios		t_ermios;
 
-/*													DEL?
-typedef struct				s_ast
-{
-	void					*left;
-	void					*right;
-	struct s_ast			*prev;
-	int						type;
-	int						branch_types;
-}							t_ast;
-*/
-
 /*
 ** STRUCT T_LISTC
-** sep_type = type of tokken
-** cont = processus
-** redir[3] = 0 = fd redir / 1 = type of redir (0 "<" / 1 ">" / 2 "<<" / 3 ">>") / 2 = fd receptor
-** *file = file receptor
+** sep_type = type of tokken (pipe, 'or' etc. as defined in the DEFINED VALUES)
+** cont = equivalent to "char **argv", processed infos.
+** redir[3] =	0 = fd redir
+** 				1 = type of redir (0 "<" / 1 ">" / 2 "<<" / 3 ">>")
+** 				2 = fd receptor
+** *file = file to redirect to
 */
 typedef struct				s_list_complete
 {
 	int						sep_type;
 	char					**cont;
 	int						redir[3];
-	char					*file; 
+	char					*file;
 	struct s_list_complete	*prev;
 	struct s_list_complete	*next;
 }							t_listc;

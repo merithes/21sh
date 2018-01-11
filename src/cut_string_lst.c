@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 14:23:57 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/09 16:11:21 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/11 15:16:52 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_listc				*create_chain_link(t_listc *prevv)
 	return (outp);
 }
 
-int					craft_chain(t_listc *outp, char **cli)
+int					forge_chain(t_listc *outp, char **cli)
 {
 	int				err;
 	t_listc			*tmp;
@@ -50,22 +50,13 @@ t_listc				*cut_string_delimiters(char **inp)
 	t_listc			*outp;
 	int				err;
 
-//	printf("wuta\n");
 	outp = create_chain_link(NULL);
-//	printf("wut\n");
-	if ((err = craft_chain(outp, inp)) < 0)
+	if ((err = forge_chain(outp, inp)) < 0)
 	{
 		free_rec_char(inp);
 		free_rec_listc(outp, F_MAIN_ONLY);
 //		print_parse_error(err);
-//	printf("}}%p\n", outp->cont[0]);
 		return (NULL);
 	}
-//	printf("[]%p\n", outp->cont[0]);
-/*	while (outp)
-	{
-		printf("%d\t%s\n", outp->sep_type, outp->cont);
-		outp = outp->next;
-	}*/
 	return (outp);
 }

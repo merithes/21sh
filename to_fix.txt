@@ -36,10 +36,27 @@ case (not hard to reproduce)
 		bug, just a forgotten feature. Doesn't work as instended since it
 		wasn't intended in the first place
 Resolved.
+
 ___-_________________________________________________________________________-__
-seprators issue: "ls ; ls" works as intended, but "ls ;ls" doesn't detect the
+separators issue: "ls ; ls" works as intended, but "ls ;ls" doesn't detect the
 ";" due to the fact that it is attached to the "ls".
 	|_> Will be a recuring problem when we add the other types of separators
 		too. I suggest modifying the arguments list in "exec_cli_lst" after the
 		first "splitter_alt" function call, in order to detect such things 
 		before/while  doing cli expansion.
+Resolved:
+Added a function tha re-parses the whole thing, detects delimiters that are in
+un-quoted 'words', and re-split the thing correctly.
+For example a "ls ;ls" command used to be splitted as "ls" ";ls" and now it
+re-splits the previous statement into "ls" ";" "ls".
+
+___-_________________________________________________________________________-__
+Segfault on "invalid amount of quotes"
+	|_>	"invalid amount of quotes" is what the splitter returns if a sentence
+		contains an invalid amount of valid quotes, which returns 'NULL'. The
+		re-splitted mentionned in the previous issue statement is probably the
+		cause of that trouble
+
+___-_________________________________________________________________________-__
+Some CTRL+letter combination messes up the input reception ("get_line")
+	|_>	letters concerned: H, K (afaik)

@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 15:38:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/10 17:43:43 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/11 12:49:54 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ int					detect_delimiters(char **inp)
 		if (!ft_strcmp("|", inp[i]))
 			return (1);
 		else if (!ft_strcmp(";", inp[i]))
+			return (1);
+		else if (!ft_strcmp("&", inp[i]))
 			return (1);
 		else if (!ft_strcmp("||", inp[i]))
 			return (1);

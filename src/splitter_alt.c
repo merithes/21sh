@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 04:06:33 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/10 15:44:40 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/11 12:55:43 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ static char			*create_wd(char *inp, int qty)
 	io = 0;
 	while (inp[i] && inp[i] > 32)
 	{
-		if (inp[i] == '\\')
-			i++;
 		if (inp[i] == '"' && (i == 0 || inp[i - 1] != '\\'))
 			get_quoted_wd(inp, outp, &i, &io);
 		else
