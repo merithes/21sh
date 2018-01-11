@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 12:08:52 by jamerlin          #+#    #+#             */
-/*   Updated: 2018/01/08 18:25:54 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/01/09 18:11:44 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void    right_redirect(t_listc *cmd)
 {
     int descfd[2];
     
-    descfd[0] = (cmd->file) ? open(cmd->file, O_RDWR | O_CREAT) : cmd->redir[2];
+    descfd[0] = (cmd->file) ? open(cmd->file, O_RDWR| O_TRUNC | O_CREAT, S_IRWXU) : cmd->redir[2];
     descfd[1] = cmd->redir[0];
     dup2(descfd[0], descfd[1]);
     close(descfd[0]);
@@ -43,7 +43,7 @@ void    double_right_redirect(t_listc *cmd)
 {
     int descfd[2];
 
-    descfd[0] = (cmd->file) ? open(cmd->file, O_RDWR | O_APPEND | O_CREAT) : cmd->redir[2];
+    descfd[0] = (cmd->file) ? open(cmd->file, O_RDWR | O_APPEND | O_CREAT, S_IRWXU ) : cmd->redir[2];
     descfd[1] = cmd->redir[0];
     dup2(descfd[0], descfd[1]);
     close(descfd[0]);
@@ -68,12 +68,15 @@ void    redirect(t_listc *cmd)
     
 }
 
-void    double_right_redirect(t_listc *cmd)
+void    double_left_redirect(t_listc *cmd)
 {
     
 }
 
-void    double_left_redirect(t_listc *cmd)
+void    pipe(t_listc *cmd)
 {
-    
-}*/
+    ls | cat (ls = processus fils, cat processus pere), fork tant qu'il y a des pipes; 
+}
+
+*/
+
