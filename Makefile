@@ -6,10 +6,10 @@
 #    By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/17 14:50:04 by vboivin           #+#    #+#              #
-#    Updated: 2018/01/09 15:42:33 by vboivin          ###   ########.fr        #
-#    Updated: 2018/01/08 16:19:51 by jamerlin         ###   ########.fr        #
+#    Updated: 2018/01/12 14:11:26 by jamerlin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME		= 21sh
 HPATH		= includes
@@ -44,7 +44,7 @@ $(NAME): $(DIR_OBJ)
 	@printf "main compilation:\tdone\n"
 	@make -C libft
 	@echo "vboivin" > auteur
-	@$(COMP) $(DIR_OBJ) -o $(NAME) $(INCMAC) $(LIBFT) $(FLAGS)
+	@$(COMP) -fsanitize=address -g3 $(DIR_OBJ) -o $(NAME) $(INCMAC) $(LIBFT) $(FLAGS) 
 
 clean:
 	@make clean -C libft
