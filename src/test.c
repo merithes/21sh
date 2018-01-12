@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 12:33:10 by jamerlin          #+#    #+#             */
-/*   Updated: 2018/01/11 18:49:46 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/01/12 17:31:49 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,23 @@
     return (0);
 }*/
 
-void    ft_pipe(char **argv, int *p, pid_t father)
+void    ft_pipe(char **argv, int *p, int i)
 {
-    if (pipe(p) == -1)
-    {
-        perror("pipe");
-        exit(1);
-    }
+    pid_t father;
+    
+    pipe(p);
     if ((father = fork()) == -1)
     {
-        perror("2fork");
+        perror("1fork");
         exit(1);
     }
     if (father == 0)
     {
-        close(p[0]);
-        dup2(p[1], 1);
-        execve(argv[0], argv, NULL);
-        printf(":%s\n:%s\n:", argv[0], *argv);
-        perror("2execve");
-        exit(1);
+        execl(argv[0], argv[0], argv[1], NULL);
+        exit(EXIT_SUCCESS);
     }
 }
-
-int     main(int argc, char **argv)
+int     main(void)
 {
     int p[2];
     pid_t father;
@@ -76,19 +69,11 @@ int     main(int argc, char **argv)
     }
     if (father == 0)
     {
-        ft_pipe((char*[3]){"/bin/cat", NULL, NULL}, p, father);
-        //perror("test");
-        if (i < 2)
-        {
-            if (i == 0)
-                ft_pipe((char *[3]){"/bin/ls", ".", NULL}, p, father);
-            /*else if (i == 1)
-                ft_pipe((char *[3]){"grep", "k_", NULL}, p, father);
-            close(p[1]);
-            dup2(p[0], 0);
-            i++;
-        }
-        exit(1);
+        if (i == 0)
+            ft_pipe ((char*[3]){"/bin/ps",NULL,NULL}, p, i);
+        if (i == 1)
+            ft_pipe((char*[3]){"/bin/cat","-e", NULL}, p , i);
+        i++;
     }
     else
         wait(NULL);
@@ -113,13 +98,13 @@ int     main(int argc, char **argv)
     if (pid)
     {
         close(p[0]); // ferme la sortie stantdard
-        dup2(p[1],1); // copie l'entre standard dans la sortie standard
+        dup2(p[1],1); // copie l'entre standard vers la sortie standard
         execlp("ls", "ls", "-l", NULL); // execute le processus
         perror("execlp"); 
         exit(1);
     }
     close(p[1]); // ferme l'entree standard
-    dup2(p[0], 0); //copie la sortie standard dans l'entrée standard
+    dup2(p[0], 0); //copie la sortie standard vers l'entrée standard
     if (pipe(p) == -1) 
     {
         perror("pipe"); 
