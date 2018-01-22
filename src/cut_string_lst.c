@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 14:23:57 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/11 15:16:52 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/16 16:18:04 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_listc				*create_chain_link(t_listc *prevv)
 	outp->prev = prevv;
 	outp->next = NULL;
 	outp->cont = NULL;
+	outp->redirs = NULL;
 	outp->sep_type = 0;
 	return (outp);
 }

@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/21 01:28:29 by vboivin           #+#    #+#             */
-/*   Updated: 2017/12/02 15:46:05 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/17 13:05:43 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,9 @@ void				echo_bin(char **arr, char *cmd, t_env *env)
 
 void				exit_bin(char **arr, char *cmd, t_env *env)
 {
-	int				i;
-
-	i = 0;
-	free_list(env);
-	while (arr && arr[i])
-		free(arr[i++]);
-	arr ? free(arr) : 0;
-	cmd ? free(cmd) : 0;
+	(void)arr;
+	(void)cmd;
+	(void)env;
 	tcsetattr(0, TCSADRAIN, &g_termcap_21sh[1]);
 	exit(0);
 }

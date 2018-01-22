@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 14:23:57 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/11 18:12:05 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/17 14:14:59 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,13 @@ void				set_cont(t_listc *lnk, char **cont_main, int i)
 	int				cursor;
 
 	cursor = -1;
-	if (!(tmp_cont = malloc(sizeof(char *) * i + 1)))
+	if (!(tmp_cont = malloc(sizeof(char *) * (i + 1))))
 		ft_error(MAF, -1);
-	ft_bzero(tmp_cont, sizeof(char *) * i + 1);
+	ft_bzero(tmp_cont, sizeof(char *) * (i + 1));
 	lnk->cont = tmp_cont;
 	while (i > ++cursor)
 		lnk->cont[cursor] = cont_main[cursor];
 //	printf("-=%d:%d:%s\n]]%s\n", i, cursor, lnk->cont[0], cont_main[0]);
-	lnk->cont[cursor] = NULL;
 }
 
 char				**set_link(t_listc *link, char **cli)

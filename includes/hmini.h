@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/11 15:16:16 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/22 16:22:22 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@
 
 # define MAX_HISTO 25
 
-
 # define NONE 0
 # define PIPE 1 << 1
 # define SEPA 1 << 2
@@ -75,6 +74,9 @@
 # define NSC " No such command\n"
 # define BACKMX "4294967295"
 # define MAF "Memory Allocation Failed.\n"
+# define SHNAME "21sh: "
+
+# define ERRP1 "21sh: Parse error near '"
 
 /*
 ** TYPEDEFS
@@ -106,12 +108,19 @@ typedef struct termios		t_ermios;
 ** 				2 = fd receptor
 ** *file = file to redirect to
 */
+
+typedef struct				s_redir
+{
+	int						redir[3];
+	char					*file;
+	struct s_redir			*next;
+}							t_redir;
+
 typedef struct				s_list_complete
 {
 	int						sep_type;
 	char					**cont;
-	int						redir[3];
-	char					*file;
+	t_redir					*redirs;
 	struct s_list_complete	*prev;
 	struct s_list_complete	*next;
 }							t_listc;
@@ -217,6 +226,7 @@ char						**detect_bad_delimiters(char **inp);
 int							contains_delims(char *inp);
 
 t_list						*convert_inp_lst(char **inp);
+int							lex_splitted(char **inp);
 
 void    test(t_listc *cmd);
 void    redirect(t_listc *cmd);

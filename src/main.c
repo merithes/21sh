@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/11 15:05:04 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/16 15:26:20 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int					filter_cli(char **arr, char fp[], char *cli, t_env *i_env)
 	wit = 0;
 	if (!cli || !cli[0])
 		return (-1);
-	while (*cli && *cli <= 32)
+	while (*cli && *cli == 32)
 		cli++;
 	if (!*cli)
 		return (-2);

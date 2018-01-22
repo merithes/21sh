@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/09 15:38:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/11 12:49:54 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/22 17:59:25 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,10 @@ char				**detect_bad_delimiters(char **inp)
 	t_list			*list;
 	char			**outp;
 
-	if (!check_separators_bigscale(inp))
+	if (!inp || !check_separators_bigscale(inp))
 		return (inp);
 	list = convert_inp_lst(inp);
+//	list = check_redirs(list);
 	outp = recompress_lst(list);
 //free_rec_char(*inp);
 	return (outp);

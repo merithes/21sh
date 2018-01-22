@@ -6,7 +6,7 @@
 /*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 16:47:07 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/06 17:15:43 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/16 16:24:48 by vboivin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void				free_rec_listc(t_listc *chain_to_free, int free_cont)
 			free(chain_to_free->cont);
 		else if (free_cont & F_ALL)
 			free_rec_char(chain_to_free->cont);
-		chain_to_free->file ? free(chain_to_free->file) : 0;
 		if (chain_to_free->next)
 		{
 			chain_to_free = chain_to_free->next;
