@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 12:33:10 by jamerlin          #+#    #+#             */
-/*   Updated: 2018/01/12 17:31:49 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/01/24 17:10:54 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,48 +39,61 @@
     return (0);
 }*/
 
-void    ft_pipe(char **argv, int *p, int i)
+void test(int i, int p[2], pid_t father, int nb_args)
 {
-    pid_t father;
-    
-    pipe(p);
-    if ((father = fork()) == -1)
+    int const	READ_END = 0;
+	int const	WRITE_END = 1;
+
+    if (i == nb_args -1)
     {
-        perror("1fork");
+        close(p[WRITE_END]);
+	    dup2(p[READ_END], STDIN_FILENO);
+        execve("/bin/cat",(char*[3]){"/bin/cat","-e",NULL},NULL);
+        perror("execve");
         exit(1);
     }
-    if (father == 0)
+    else
     {
-        execl(argv[0], argv[0], argv[1], NULL);
-        exit(EXIT_SUCCESS);
+        if (pipe(p) == -1)
+        {
+            perror("pipe");
+            exit(1);
+        }
+        if ((father = fork()) == -1)
+        {
+            perror("fork");
+            exit(1);
+        }
+        if (father == 0)
+        {
+            close(p[READ_END]);
+	        dup2(p[WRITE_END], STDOUT_FILENO);
+            if (i == 0)
+                execve("/bin/ls" , (char*[2]){"/bin/ls",NULL},NULL);
+            if (i == 1)
+                execve("/usr/bin/grep" , (char*[3]){"/usr/bin/grep","k_",NULL},NULL);
+            perror("execve");
+            exit(1);
+        }
+        close(p[WRITE_END]);
+        dup2(p[READ_END], STDIN_FILENO);
+    }
+    if (nb_args >= 3 && i <= nb_args - 2)
+    {
+        test(i + 1, p, father, nb_args);
+        wait(NULL);
     }
 }
+
 int     main(void)
 {
     int p[2];
     pid_t father;
-    int i;
-
-    i = 0;
-    if ((father = fork()) == -1)
-    {
-        perror("1fork");
-        exit(1);
-    }
-    if (father == 0)
-    {
-        if (i == 0)
-            ft_pipe ((char*[3]){"/bin/ps",NULL,NULL}, p, i);
-        if (i == 1)
-            ft_pipe((char*[3]){"/bin/cat","-e", NULL}, p , i);
-        i++;
-    }
-    else
-        wait(NULL);
+    test(0, p, father, 3);
     return (0);
 }
- 
-/*int main(void)
+/* 
+int main(void)
 {  
     int p[2];
     pid_t pid;

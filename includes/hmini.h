@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/22 16:22:22 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/01/24 17:03:12 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ typedef struct				s_list_complete
 {
 	int						sep_type;
 	char					**cont;
+	int						nb_arg;
 	t_redir					*redirs;
 	struct s_list_complete	*prev;
 	struct s_list_complete	*next;
