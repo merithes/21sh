@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 12:33:10 by jamerlin          #+#    #+#             */
-/*   Updated: 2018/01/24 17:10:54 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/02 15:57:41 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int     main(void)
 {
     int p[2];
     pid_t father;
+
     test(0, p, father, 3);
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/24 17:03:12 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/02 13:19:59 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,5 +230,6 @@ t_list						*convert_inp_lst(char **inp);
 int							lex_splitted(char **inp);
 
 void    test(t_listc *cmd);
-void    redirect(t_listc *cmd);
+void    redirect(t_listc *cmd, pid_t father);
+t_listc *add_elem(t_listc *cmd);
 #endif

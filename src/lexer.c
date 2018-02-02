@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/19 15:04:28 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/22 18:51:18 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/02/02 12:08:49 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ short int			is_delim(char *inp)
 	len = ft_strlen(inp);
 	if (len > 2)
 		return (0);
-	if (ft_strcmp("||", inp) || ft_strcmp("&&", inp) ||
-		ft_strcmp(";", inp) || ft_strcmp("|", inp) || ft_strcmp("&", inp))
+	if (!ft_strcmp("||", inp) || !ft_strcmp("&&", inp) ||
+		!ft_strcmp(";", inp) || !ft_strcmp("|", inp) || !ft_strcmp("&", inp))
 		return (1);
-	else if (ft_strcmp(">>", inp) || ft_strcmp("<<", inp)
-		|| ft_strcmp(">", inp) || ft_strcmp("<", inp))
+	else if (!ft_strcmp(">>", inp) || !ft_strcmp("<<", inp)
+		|| !ft_strcmp(">", inp) || !ft_strcmp("<", inp))
 		return (2);
 	return (0);
 }
