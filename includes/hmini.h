@@ -6,7 +6,11 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2018/02/05 13:27:26 by jamerlin         ###   ########.fr       */
+=======
+/*   Updated: 2018/01/30 15:49:48 by vboivin          ###   ########.fr       */
+>>>>>>> aaca760f23950ea7bfb5614ffc7b17cc026bd5f2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +80,21 @@
 # define MAF "Memory Allocation Failed.\n"
 # define SHNAME "21sh: "
 
+/*
+** Error related defined values
+** =============================================================================
+*/
+
 # define ERRP1 "21sh: Parse error near '"
+# define ERRP2_1 "21sh: Unexpected token '"
+# define ERRP2_2 "' After '"
+# define ERRP3 "21sh: Expected file name after token '"
+# define ERRP4 "21sh: Invalid redirection token '"
+
+# define ERR_1 1
+# define ERR_2 2
+# define ERR_3 3
+# define ERR_4 4
 
 # define IN 0
 # define OUT 1

@@ -9,10 +9,11 @@ void				exec_cli_lst(char *inp, t_env *env)
 	tmp = NULL;
 	split_alt = splitter_alt(inp);
 	split_alt = detect_bad_delimiters(split_alt);
-	if ((err = lex_splitted(split_alt)) < 0)
+	if ((err = lex_splitted(split_alt)) != 0)
 	{
+		printf("%d\n", err);
+		free_rec_char(split_alt);
 		split_alt = NULL;
-//		print_err(err);
 	}
 //	split_alt = resplit_bad_redirs(split_alt);
 //	int i = -1;while (split_alt && split_alt[++i]) printf("%d:\t%s\n", i, split_alt[i]);
