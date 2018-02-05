@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/02/02 13:19:59 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/05 13:27:26 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@
 
 # define ERRP1 "21sh: Parse error near '"
 
+# define IN 0
+# define OUT 1
+# define ERR_OUT 2
 /*
 ** TYPEDEFS
 */
@@ -230,6 +233,7 @@ t_list						*convert_inp_lst(char **inp);
 int							lex_splitted(char **inp);
 
 void    test(t_listc *cmd);
+void    test_left(t_listc *cmd);
 void    redirect(t_listc *cmd, pid_t father);
 t_listc *add_elem(t_listc *cmd);
 #endif

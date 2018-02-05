@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-/*   Updated: 2018/02/02 16:45:28 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/05 15:15:11 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	char			**env;
 	int				bin;
 	pid_t			father;
-	//t_listc 		*testi = NULL;
+	t_listc 		*testi = NULL;
 
 	if ((bin = filter_cli(full_detail->cont, fullpath, cli, i_env)) < 0)
 		return ;
@@ -68,19 +68,13 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 		signal(SIGINT, SIG_DFL);
 		env = rmk_env(i_env);
 		/*if (!ft_strcmp(full_detail->cont[0],"ls"))
-		//{
-			//testi = add_elem(testi);
-			//test(testi);
-			//printf("lol\n");
-			if (cmd->n > 1)
-			{
+		{
+			testi = add_elem(testi);
+			test_left(testi);
+			if (testi->nb_arg > 1)
 				redirect(testi, father);
-				ft_putendl_fd("lol2", 2);
-			}
-		//}
-		//else*/
-			execve(fullpath, full_detail->cont, env);
-		ft_putendl_fd("lol3", 2);
+		}*/
+		execve(fullpath, full_detail->cont, env);
 		access(fullpath, X_OK) ?
 		pcat("minishell: ", fullpath, ": Permission denied.", 1) :
 		pcat("minishell: ", fullpath, NEOB, 1);
