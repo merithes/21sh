@@ -14,10 +14,10 @@
 
 int					contains_delims(char *inp)
 {
-	char			*tmp;
+//	char			*tmp;
 
 //	printf("in\n");
-	tmp = inp;
+//	tmp = inp;
 	if (!ft_strcmp(inp, "&&") || !ft_strcmp(inp, "||") ||
 		!ft_strcmp(inp, "&") || !ft_strcmp(inp, ";") || !ft_strcmp(inp, "|"))
 	{

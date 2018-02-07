@@ -59,7 +59,7 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	char			**env;
 	int				bin;
 	pid_t			father;
-	t_listc 		*testi = NULL;
+//*	t_listc 		*testi = NULL;
 
 	if ((bin = filter_cli(full_detail->cont, fullpath, cli, i_env)) < 0)
 		return ;
