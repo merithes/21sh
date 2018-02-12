@@ -6,11 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/02/05 13:27:26 by jamerlin         ###   ########.fr       */
-=======
-/*   Updated: 2018/01/30 15:49:48 by vboivin          ###   ########.fr       */
->>>>>>> aaca760f23950ea7bfb5614ffc7b17cc026bd5f2
+/*   Updated: 2018/02/09 17:29:07 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +118,9 @@ typedef struct termios		t_ermios;
 
 /*
 ** STRUCT T_LISTC
-** sep_type = type of tokken (pipe, 'or' etc. as defined in the DEFINED VALUES)
+** sep_type = type of tokken 
+** (pipe, 'or' etc. as defined in the DEFINED VALUES)
+** 0 = no tokkens 1 = '|' 2 = '<' or '<<' or '>' or '>>' 3 = '||' 4 = '&&' 
 ** cont = equivalent to "char **argv", processed infos.
 ** redir[3] =	0 = fd redir
 ** 				1 = type of redir (0 "<" / 1 ">" / 2 "<<" / 3 ">>")
@@ -250,8 +248,10 @@ int							contains_delims(char *inp);
 t_list						*convert_inp_lst(char **inp);
 int							lex_splitted(char **inp);
 
-void    test(t_listc *cmd);
+void	test(t_listc *cmd);
 void    test_left(t_listc *cmd);
 void    redirect(t_listc *cmd, pid_t father);
+t_redir *init_redir(t_redir* lol);
 t_listc *add_elem(t_listc *cmd);
+t_listc *add_elem2(t_listc *cmd);
 #endif
