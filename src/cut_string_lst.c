@@ -29,9 +29,9 @@ t_listc				*create_chain_link(t_listc *prevv)
 int					forge_chain(t_listc *outp, char **cli)
 {
 	int				err;
-	t_listc			*tmp;
+//	t_listc			*tmp;
 
-	tmp = outp;
+//	tmp = outp;
 	err = 0;
 	while (1)
 	{

@@ -59,8 +59,12 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	char			**env;
 	int				bin;
 	pid_t			father;
+<<<<<<< HEAD
 	static int		status = 0;
 	//t_listc 		*testi = NULL; //variable a initialiser pour les tests
+=======
+//*	t_listc 		*testi = NULL;
+>>>>>>> b25bc6cd5a06cd1a766c70d08d2f0158c8d284dc
 
 	father = 0;
 	if ((bin = filter_cli(full_detail->cont, fullpath, cli, i_env)) < 0)
