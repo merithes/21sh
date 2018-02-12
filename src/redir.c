@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 12:08:52 by jamerlin          #+#    #+#             */
-/*   Updated: 2018/02/12 13:43:33 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/12 16:40:51 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_listc *add_elem(t_listc *cmd) //ajoute un maillon
 
     beg = cmd;
     new = (t_listc*)malloc(sizeof(t_listc));
-    new->sep_type = 1;
+    new->sep_type = PIPE;
     new->cont = NULL;
     new->nb_arg = 3;
     new->redirs = NULL;
@@ -58,9 +58,9 @@ t_listc *add_elem2(t_listc *cmd) // ajoute un maillon
 
     beg = cmd;
     new = (t_listc*)malloc(sizeof(t_listc));
-    new->sep_type = 2;
+    new->sep_type = SEPA;
     new->cont = NULL;
-    new->nb_arg = 3;
+    new->nb_arg = 2;
     new->redirs = NULL;
     new->prev = NULL;
     new->next = NULL;
@@ -106,7 +106,7 @@ void    test(t_listc *cmd) // test ls src | grep -e "k_" | cat -e
     {
         cmd = add_elem(cmd);
         cmd->redirs = init_redir(cmd->redirs);
-        if (i == 0)
+        if (i == 0) 
         {
             cmd->cont = (char **)malloc(sizeof(char *) * 3);
             cmd->cont[0] = ft_strdup("/bin/ls");
@@ -192,13 +192,14 @@ void    double_right_redirect(t_listc *cmd) // redirection d'une sortie vers la 
     close(descfd[0]);
 }
 
-void    do_pipe(t_listc *cmd, int i, pid_t father, int p[2]) // fonction de pipe
+void     do_pipe(t_listc *cmd, int i, pid_t father, int p[2]) // fonction de pipe
 {
     int const READ_END = 0;
     int const WRITE_END = 1;
 
     if (i == cmd->nb_arg -1 || (cmd->nb_arg == 2 && i == 1))
     {
+        printf("%d -- il passe la\n", i);
         close(p[WRITE_END]);
 	    dup2(p[READ_END], STDIN_FILENO);
         execve(cmd->cont[0], cmd->cont, NULL);
@@ -219,6 +220,7 @@ void    do_pipe(t_listc *cmd, int i, pid_t father, int p[2]) // fonction de pipe
         }
         if (father == 0)
         {
+            printf("%d -- il passe ici\n", i);
             close(p[READ_END]);
 	        dup2(p[WRITE_END], STDOUT_FILENO);
             execve(cmd->cont[0], cmd->cont, NULL);
@@ -230,17 +232,34 @@ void    do_pipe(t_listc *cmd, int i, pid_t father, int p[2]) // fonction de pipe
     }
     if (cmd->nb_arg >= 3 && i <= cmd->nb_arg - 2)
     {
-        do_pipe(cmd->next, i + 1, father, p);
+        printf("lol\n");
+        do_pipe((cmd = cmd->next), i + 1, father, p);
         wait(NULL);
     }
 }
 
-void    redirect(t_listc *cmd, pid_t father) // gestion des redirections
+void    prepare_pipe(t_listc *cmd)
+{
+    t_listc *cpy;
+
+    cpy = cmd;
+    while (cpy)
+    {
+        cpy->nb_arg = 3;
+		cpy->sep_type = PIPE;
+		cpy = cpy->next;
+    }    
+}
+
+void   redirect(t_listc *cmd, pid_t father) // gestion des redirections
 {
     int p[2];
     
-    if (cmd->sep_type == 1)
+    if (cmd->sep_type == PIPE)
+    {
+        prepare_pipe(cmd);
         do_pipe(cmd, 0, father,p); // il faut une liste avec les commandes dans des maillons différents
+    }
     /*if (!cmd->redirs || !cmd->redirs->redir[0])
         return ;*/
     if (cmd->redirs && cmd->redirs->redir[1] == 0)

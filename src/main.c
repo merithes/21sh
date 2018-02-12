@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-/*   Updated: 2018/02/12 13:41:20 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/12 16:55:48 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,9 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	char			**env;
 	int				bin;
 	pid_t			father;
-<<<<<<< HEAD
-	static int		status = 0;
-	//t_listc 		*testi = NULL; //variable a initialiser pour les tests
-=======
-//*	t_listc 		*testi = NULL;
->>>>>>> b25bc6cd5a06cd1a766c70d08d2f0158c8d284dc
+	static int 		status = 0;
+//	t_listc			*cpy;
+//	t_listc 		*testi = NULL;
 
 	father = 0;
 	if ((bin = filter_cli(full_detail->cont, fullpath, cli, i_env)) < 0)
@@ -90,12 +87,9 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 			if (testi->nb_arg > 1)
 				redirect(testi, father);*/
 			//**** test fonctionnalité pipe et sepa****
-			/*
-			if (full_detail->sep_type == PIPE || full_detail->sep_type == SEPA)
-			{
-				full_detail->redirs = init_redir(full_detail->redirs);
-			}
-			redirect(full_detail, father);*/
+			/*if (full_detail->sep_type == PIPE || full_detail->sep_type == SEPA)
+				full_detail->redirs = init_redir(full_detail->redirs);*/
+			//redirect(full_detail, father);
 		//}
 		//**** ci dessous gestion && et || ****
 		/*if (full_detail->sep_type == 3 || full_detail->sep_type == 4)

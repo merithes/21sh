@@ -6,11 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/02/09 17:29:07 by jamerlin         ###   ########.fr       */
-=======
-/*   Updated: 2018/02/05 13:27:26 by jamerlin         ###   ########.fr       */
->>>>>>> b25bc6cd5a06cd1a766c70d08d2f0158c8d284dc
+/*   Updated: 2018/02/12 16:40:35 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +250,9 @@ int							lex_splitted(char **inp);
 
 void	test(t_listc *cmd);
 void    test_left(t_listc *cmd);
-void    redirect(t_listc *cmd, pid_t father);
+void 	redirect(t_listc *cmd, pid_t father);
+void     do_pipe(t_listc *cmd, int i, pid_t father, int p[2]);
+void    prepare_pipe(t_listc *cmd);
 t_redir *init_redir(t_redir* lol);
 t_listc *add_elem(t_listc *cmd);
 t_listc *add_elem2(t_listc *cmd);
