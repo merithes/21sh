@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 12:08:52 by jamerlin          #+#    #+#             */
-/*   Updated: 2018/02/13 16:33:22 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/13 16:29:17 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,28 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+
+t_listc *add_elem(t_listc *cmd) //ajoute un maillon
+{
+    t_listc *new;
+    t_listc *beg;
+
+    beg = cmd;
+    new = (t_listc*)malloc(sizeof(t_listc));
+    new->sep_type = PIPE;
+    new->cont = NULL;
+    new->nb_arg = 3;
+    new->redirs = NULL;
+    new->prev = NULL;
+    new->next = NULL;
+    if (cmd == NULL)
+        return(new);
+    while (cmd->next != NULL)
+        cmd = cmd->next;
+    cmd->next = new;
+    cmd->next->next = NULL;
+    return (beg);
+}
 
 t_listc *add_elem2(t_listc *cmd) // ajoute un maillon
 {
@@ -61,6 +83,47 @@ t_redir *init_redir2(t_redir* lol) // init la liste redir
     lol->file = "fichier";
     lol->next = NULL;
     return (lol);
+}
+
+t_listc    *test(t_listc *cmd) // test ls src | grep -e "k_" | cat -e
+{
+    t_listc *beg;
+    int i;
+
+    i = 0;
+    beg = cmd;
+    while (i < 3)
+    {
+        cmd = add_elem(cmd);
+        cmd->redirs = init_redir(cmd->redirs);
+        if (i == 0) 
+        {
+            cmd->cont = (char **)malloc(sizeof(char *) * 3);
+            cmd->cont[0] = ft_strdup("/bin/ls");
+            cmd->cont[1] = ft_strdup("src");
+            cmd->cont[2] = NULL;
+        }
+        else if (i == 1)
+        {
+            cmd->cont = (char **)malloc(sizeof(char *) * 4);
+            cmd->cont[0] = ft_strdup("/usr/bin/grep");
+            cmd->cont[1] = ft_strdup("-e");
+            cmd->cont[2] = ft_strdup("k_");
+            cmd->cont[3] = NULL;
+        }
+        else if (i == 2)
+        {
+            cmd->cont = (char **)malloc(sizeof(char *) * 3);
+            cmd->cont[0] = ft_strdup("/bin/cat");
+            cmd->cont[1] = ft_strdup("-e");
+            cmd->cont[2] = NULL;
+        }
+        cmd->nb_arg = 3;
+        cmd = cmd->next;
+        i++;
+    }
+    cmd = beg;
+    return (cmd);
 }
 
 void    test_left(t_listc *cmd) //test wc < fichier

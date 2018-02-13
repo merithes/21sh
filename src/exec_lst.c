@@ -2,21 +2,6 @@
 
 void				exec_lst(t_listc *inp, t_env *env)
 {
-	//int i = 0;
-	//int	p[2];
-	//pid_t father = 0;
-	//t_listc *cpy;
-
-	/*int i; // verification des maillons
-	t_listc *beg;
-
-	i = 0;
-	beg = inp;
-	while (beg)
-	{
-		printf("%s\n", beg->cont[0]);
-		beg = beg->next;
-	}*/
 	while (inp)
 	{
 		if (inp->sep_type == SEPA || inp->sep_type == NONE)
@@ -24,13 +9,10 @@ void				exec_lst(t_listc *inp, t_env *env)
 		else if (inp->sep_type == PIPE)
 		{
 			prepare_pipe(inp);
-			//do_pipe(inp, 0, father, p);
 			exec_cli(inp->cont[0], inp, env);
-			while (inp->next)
+			while (inp->next && inp->sep_type == PIPE)
 				inp = inp->next;
 		}
-			//printf("check src/exec_lst.c to add PIPE exec interpreter for %s\n",
-			//		inp->cont[0]);
 		else if (inp->sep_type == BCKG)
 			printf("check src/exec_lst.c to add BCKG exec interpreter for %s\n",
 					inp->cont[0]);

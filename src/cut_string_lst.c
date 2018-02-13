@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cut_string_lst.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vboivin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 14:23:57 by vboivin           #+#    #+#             */
-/*   Updated: 2018/01/16 16:18:04 by vboivin          ###   ########.fr       */
+/*   Updated: 2018/02/13 15:29:40 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,5 @@ t_listc				*cut_string_delimiters(char **inp)
 //		print_parse_error(err);
 		return (NULL);
 	}
-	t_listc *tmp;
-	tmp = outp;
-	while (tmp != NULL){
-		printf("%p\t%p\t%d\t%s\n", tmp->prev, tmp->next,
-			tmp->sep_type, tmp->cont[0]);
-		tmp = tmp->next;}
 	return (outp);
 }
