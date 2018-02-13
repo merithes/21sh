@@ -109,6 +109,7 @@ void				ft_lstiter(t_list *alst, void (*f)(t_list *elem));
 t_list				*ft_lstnew(void const *content, size_t content_size);
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				free_rec_char(char **inp);
+int					count_char(char *inp, char c);
 
 /*
 **		GET NEXT LINE

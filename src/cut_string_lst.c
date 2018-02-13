@@ -59,5 +59,11 @@ t_listc				*cut_string_delimiters(char **inp)
 //		print_parse_error(err);
 		return (NULL);
 	}
+	t_listc *tmp;
+	tmp = outp;
+	while (tmp != NULL){
+		printf("%p\t%p\t%d\t%s\n", tmp->prev, tmp->next,
+			tmp->sep_type, tmp->cont[0]);
+		tmp = tmp->next;}
 	return (outp);
 }

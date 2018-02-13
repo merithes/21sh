@@ -8,6 +8,8 @@ void				exec_cli_lst(char *inp, t_env *env)
 
 	tmp = NULL;
 	split_alt = splitter_alt(inp);
+//	if (detect_wrong_redirs(split_alt))
+//		return ;
 	split_alt = detect_bad_delimiters(split_alt);
 	if ((err = lex_splitted(split_alt)) != 0)
 	{
@@ -16,7 +18,7 @@ void				exec_cli_lst(char *inp, t_env *env)
 		split_alt = NULL;
 	}
 //	split_alt = resplit_bad_redirs(split_alt);
-//	int i = -1;while (split_alt && split_alt[++i]) printf("%d:\t%s\n", i, split_alt[i]);
+	int i = -1;while (split_alt && split_alt[++i]) printf("%d:\t%s\n", i, split_alt[i]);
 	if (split_alt != NULL)
 	{
 		if ((tmp = cut_string_delimiters(split_alt)) != NULL)
