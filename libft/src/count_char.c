@@ -4,6 +4,7 @@ int					count_char(char *inp, char c)
 {
 	int				cnt;
 
+	cnt = 0;
 	if (!inp)
 		return (0);
 	while (*inp)

@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-/*   Updated: 2018/02/13 13:18:34 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/13 13:45:43 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 			if (!ft_strcmp(full_detail->cont[0],"test"))
 			{
 				testi = add_elem(testi);
-				testi = test(testi);
+				test(testi);
 			}
 			else
 			{
@@ -85,7 +85,7 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 				test_left(testi);
 			}
 			cpy = testi;
-			while (cpy)
+			while (cpy->next)
 			{
 				printf("type = %d -- cont = %s -- nb_arg = %d\n",cpy->sep_type, cpy->cont[0], cpy->nb_arg);
 				cpy = cpy->next;

@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/02/12 16:40:35 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/13 13:43:10 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ int							contains_delims(char *inp);
 t_list						*convert_inp_lst(char **inp);
 int							lex_splitted(char **inp);
 
-void	test(t_listc *cmd);
+t_listc	*test(t_listc *cmd);
 void    test_left(t_listc *cmd);
 void 	redirect(t_listc *cmd, pid_t father);
 void     do_pipe(t_listc *cmd, int i, pid_t father, int p[2]);
