@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 12:08:52 by jamerlin          #+#    #+#             */
-/*   Updated: 2018/02/12 16:40:51 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/13 12:30:25 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_redir *init_redir2(t_redir* lol) // init la liste redir
     return (lol);
 }
 
-void    test(t_listc *cmd) // test ls src | grep -e "k_" | cat -e
+t_listc    *test(t_listc *cmd) // test ls src | grep -e "k_" | cat -e
 {
     t_listc *beg;
     int i;
@@ -133,6 +133,7 @@ void    test(t_listc *cmd) // test ls src | grep -e "k_" | cat -e
         i++;
     }
     cmd = beg;
+    return (cmd);
 }
 
 void    test_left(t_listc *cmd) //test wc < fichier
@@ -232,8 +233,7 @@ void     do_pipe(t_listc *cmd, int i, pid_t father, int p[2]) // fonction de pip
     }
     if (cmd->nb_arg >= 3 && i <= cmd->nb_arg - 2)
     {
-        printf("lol\n");
-        do_pipe((cmd = cmd->next), i + 1, father, p);
+        do_pipe(cmd->next, i + 1, father, p);
         wait(NULL);
     }
 }
@@ -245,10 +245,11 @@ void    prepare_pipe(t_listc *cmd)
     cpy = cmd;
     while (cpy)
     {
+        printf("%s\n",cpy->cont[0]);
         cpy->nb_arg = 3;
 		cpy->sep_type = PIPE;
 		cpy = cpy->next;
-    }    
+    }
 }
 
 void   redirect(t_listc *cmd, pid_t father) // gestion des redirections
@@ -257,7 +258,7 @@ void   redirect(t_listc *cmd, pid_t father) // gestion des redirections
     
     if (cmd->sep_type == PIPE)
     {
-        prepare_pipe(cmd);
+        //prepare_pipe(cmd);
         do_pipe(cmd, 0, father,p); // il faut une liste avec les commandes dans des maillons différents
     }
     /*if (!cmd->redirs || !cmd->redirs->redir[0])

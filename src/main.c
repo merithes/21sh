@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-/*   Updated: 2018/02/12 16:55:48 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/13 13:18:34 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	int				bin;
 	pid_t			father;
 	static int 		status = 0;
-//	t_listc			*cpy;
-//	t_listc 		*testi = NULL;
+	t_listc			*cpy = NULL;
+	t_listc 		*testi = NULL;
 
 	father = 0;
 	if ((bin = filter_cli(full_detail->cont, fullpath, cli, i_env)) < 0)
@@ -72,27 +72,42 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 		env = rmk_env(i_env);
 		//printf("cont : %s\n", full_detail->cont[0]);
 		//**** ci dessous 2 test {test = ls src | grep -e "k_" | cat -e}, {ls = ls > fichier} ****
-		/*if (!ft_strcmp(full_detail->cont[0],"test") || !ft_strcmp(full_detail->cont[0], "ls"))
+		if (!ft_strcmp(full_detail->cont[0],"test") || !ft_strcmp(full_detail->cont[0], "ls"))
 		{
 			if (!ft_strcmp(full_detail->cont[0],"test"))
 			{
 				testi = add_elem(testi);
-				test(testi);
+				testi = test(testi);
 			}
 			else
 			{
 				testi = add_elem2(testi);
 				test_left(testi);
 			}
+			cpy = testi;
+			while (cpy)
+			{
+				printf("type = %d -- cont = %s -- nb_arg = %d\n",cpy->sep_type, cpy->cont[0], cpy->nb_arg);
+				cpy = cpy->next;
+			}
 			if (testi->nb_arg > 1)
-				redirect(testi, father);*/
+				redirect(testi, father);
 			//**** test fonctionnalité pipe et sepa****
 			/*if (full_detail->sep_type == PIPE || full_detail->sep_type == SEPA)
-				full_detail->redirs = init_redir(full_detail->redirs);*/
-			//redirect(full_detail, father);
-		//}
-		//**** ci dessous gestion && et || ****
-		/*if (full_detail->sep_type == 3 || full_detail->sep_type == 4)
+			{
+				cpy = full_detail;
+				while (cpy->next)
+				{
+					printf("type = %d -- cont = %s -- nb_arg = %d\n",cpy->sep_type, cpy->cont[0], cpy->nb_arg);
+					cpy = cpy->next;
+				}
+				//cpy->next = NULL;
+				//full_detail->redirs = init_redir(full_detail->redirs);
+				redirect(full_detail, father);
+			}*/
+		}
+		/*/**** ci dessous gestion && et || ****
+		if (full_detail->sep_type == 3 || full_detail->sep_type == 4)
 		{
 			if (full_detail->sep_type == 3 && WEXITSTATUS(status) == 1)
 				execve(fullpath, full_detail->cont, env);
