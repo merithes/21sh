@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-/*   Updated: 2018/02/13 15:26:33 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/14 17:24:15 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	char			**env;
 	int				bin;
 	pid_t			father;
-	static int 		status = 0;
-//	t_listc 		*testi = NULL;
 
 	father = 0;
 	if ((bin = filter_cli(full_detail->cont, fullpath, cli, i_env)) < 0)
@@ -69,31 +67,18 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	{
 		signal(SIGINT, SIG_DFL);
 		env = rmk_env(i_env);
-		/*if (!ft_strcmp(full_detail->cont[0],"test"))
+		if (full_detail->sep_type == PIPE || full_detail->sep_type == SEPA)
+			redirect(full_detail, father);
+		if (full_detail->prev && (full_detail->prev->sep_type == AND || full_detail->prev->sep_type == OR))
 		{
-			if (!ft_strcmp(full_detail->cont[0],"test"))
-			{
-				testi = add_elem2(testi);
-				test_left(testi);
-			}
-			if (testi->nb_arg > 1)
-				redirect(testi, father);
-		}*/
-		//**** test fonctionnalité pipe et sepa****
-			if (full_detail->sep_type == PIPE || full_detail->sep_type == SEPA)
-			{
-				//full_detail->redirs = init_redir(full_detail->redirs);
-				redirect(full_detail, father);
-			}
-		/*/**** ci dessous gestion && et || ****
-		if (full_detail->sep_type == 3 || full_detail->sep_type == 4)
-		{
-			if (full_detail->sep_type == 3 && WEXITSTATUS(status) == 1)
+			if (full_detail->prev->sep_type == OR && i_env->exit_code != 0)
 				execve(fullpath, full_detail->cont, env);
-			else if (full_detail->sep_type == 4 && WEXITSTATUS(status) == 0)
+			else if (full_detail->prev->sep_type == AND && i_env->exit_code == 0)
 				execve(fullpath, full_detail->cont, env);
+			else
+				exit(i_env->exit_code);
 		}
-		else*/
+		else
 			execve(fullpath, full_detail->cont, env);
 		access(fullpath, X_OK) ?
 		pcat("minishell: ", fullpath, ": Permission denied.", 1) :
@@ -101,7 +86,8 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 		exit(-1);
 	}
 	(!bin && fullpath[0]) ? signal(SIGINT, &signal_newline) : 0;
-	waitpid(father, &status, WUNTRACED);
+	waitpid(father, &i_env->status, WUNTRACED);
+	i_env->exit_code = WEXITSTATUS(i_env->status);
 }
 
 int					main(int ac, char **av, char **env_o)

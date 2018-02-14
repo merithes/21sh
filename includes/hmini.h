@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/02/13 13:43:10 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/14 16:59:06 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ typedef struct				s_env
 	char					*full;
 	char					*name;
 	char					*cont;
+	int						status;
+	int						exit_code;
 	struct s_env			*next;
 }							t_env;
 
@@ -252,6 +254,7 @@ t_listc	*test(t_listc *cmd);
 void    test_left(t_listc *cmd);
 void 	redirect(t_listc *cmd, pid_t father);
 void     do_pipe(t_listc *cmd, int i, pid_t father, int p[2]);
+int					filter_cli(char **arr, char fp[], char *cli, t_env *i_env);
 void    prepare_pipe(t_listc *cmd);
 t_redir *init_redir(t_redir* lol);
 t_listc *add_elem(t_listc *cmd);

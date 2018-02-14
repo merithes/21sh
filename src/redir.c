@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 12:08:52 by jamerlin          #+#    #+#             */
-/*   Updated: 2018/02/13 16:33:22 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/02/14 17:26:20 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,15 +122,23 @@ void    double_right_redirect(t_listc *cmd) // redirection d'une sortie vers la 
 
 void     do_pipe(t_listc *cmd, int i, pid_t father, int p[2]) // fonction de pipe
 {
-    int const READ_END = 0;
-    int const WRITE_END = 1;
+    int const   READ_END = 0;
+    int const   WRITE_END = 1;
+    char		fullpath[MAXPATHLEN * 2 + 1];
+    int         bin;
 
+    if (g_backup_env->exit_code != 0)
+    {
+            printf("exit = %s\n", cmd->cont[0]);
+            exit(1);
+    }
     if (i == cmd->nb_arg -1 || (cmd->nb_arg == 2 && i == 1))
     {
-        //printf("%d -- il passe la et nb_arg = %d\n", i, cmd->nb_arg);
         close(p[WRITE_END]);
 	    dup2(p[READ_END], STDIN_FILENO);
-        execve(cmd->cont[0], cmd->cont, NULL);
+        if ((bin = filter_cli(cmd->cont, fullpath, cmd->cont[0], g_backup_env)) < 0)
+            return ;
+        execve(fullpath, cmd->cont, NULL);
         perror("execve");
         exit(1);
     }
@@ -148,10 +156,11 @@ void     do_pipe(t_listc *cmd, int i, pid_t father, int p[2]) // fonction de pip
         }
         if (father == 0)
         {
-            //printf("%d -- il passe ici et nb_arg = %d\n", i, cmd->nb_arg);
             close(p[READ_END]);
 	        dup2(p[WRITE_END], STDOUT_FILENO);
-            execve(cmd->cont[0], cmd->cont, NULL);
+            if ((bin = filter_cli(cmd->cont, fullpath, cmd->cont[0], g_backup_env)) < 0)
+                return ;
+            execve(fullpath, cmd->cont, NULL);
             perror("execve");
             exit(1);
         }
@@ -161,7 +170,8 @@ void     do_pipe(t_listc *cmd, int i, pid_t father, int p[2]) // fonction de pip
     if (cmd->nb_arg >= 2 && i <= cmd->nb_arg - 2)
     {
         do_pipe(cmd->next, i + 1, father, p);
-        wait(NULL);
+        waitpid(father, &g_backup_env->status, WUNTRACED);
+        g_backup_env->exit_code = WEXITSTATUS(g_backup_env->status);
     }
 }
 
@@ -193,18 +203,21 @@ void    prepare_pipe(t_listc *cmd)
 void   redirect(t_listc *cmd, pid_t father) // gestion des redirections
 {
     int p[2];
-    
+   
     if (cmd->sep_type == PIPE)
         do_pipe(cmd, 0, father,p); // il faut une liste avec les commandes dans des maillons différents
-    /*if (!cmd->redirs || !cmd->redirs->redir[0])
-        return ;*/
-    if (cmd->redirs && cmd->redirs->redir[1] == 0)
-        left_redirect(cmd); // une liste de 1 maillon avec le fichier renseigne 
-    else if (cmd->redirs && cmd->redirs->redir[1] == 1)
-        right_redirect(cmd); // une liste de 1 maillon avec le fichier renseigne
-    /*else if (cmd->redir[1] == 2) // doit etre gerer en amont 
-        double_left_redirect(cmd);*/
-    else if (cmd->redirs && cmd->redirs->redir[1] == 3)
-        double_right_redirect(cmd); // une liste de 1 maillon avec le fichier renseigne
+    else
+    {
+        if (!cmd->redirs || !cmd->redirs->redir[0])
+            cmd->redirs = init_redir(cmd->redirs);
+        if (cmd->redirs && cmd->redirs->redir[1] == 0)
+            left_redirect(cmd); // une liste de 1 maillon avec le fichier renseigne 
+        else if (cmd->redirs && cmd->redirs->redir[1] == 1)
+            right_redirect(cmd); // une liste de 1 maillon avec le fichier renseigne
+        /*else if (cmd->redir[1] == 2) // doit etre gerer en amont 
+            double_left_redirect(cmd);*/
+        else if (cmd->redirs && cmd->redirs->redir[1] == 3)
+            double_right_redirect(cmd); // une liste de 1 maillon avec le fichier renseigne
+    }
 }
 
