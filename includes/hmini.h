@@ -249,6 +249,11 @@ int							contains_delims(char *inp);
 
 t_list						*convert_inp_lst(char **inp);
 int							lex_splitted(char **inp);
+t_list						*check_redirs(t_list *inp);
+
+int							analyze_spleet(char *inp[4],
+								t_list **tmp_a, t_list **tmp_b);
+int							contains_bad_redirs(char *inp);
 
 t_listc	*test(t_listc *cmd);
 void    test_left(t_listc *cmd);

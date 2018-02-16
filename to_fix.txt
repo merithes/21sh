@@ -60,3 +60,8 @@ Segfault on "invalid amount of quotes"
 ___-_________________________________________________________________________-__
 Some CTRL+letter combination messes up the input reception ("get_line")
 	|_>	letters concerned: H, K (afaik)
+
+___-_________________________________________________________________________-__
+Weird characters may appear after the implementation of the redirection token
+split. Don't know if it was me mistyping a letter because I can't seem to get it
+to bug back again. Might be because of 'unicode' reasons.

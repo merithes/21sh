@@ -89,7 +89,7 @@ int					get_cmdl(char **to_fill, t_histo **history)
 			cursor = k_del(cursor, scribe, buffer);
 		else if (special_check(buffer, scribe))
 			cursor = special_act(buffer, &scribe, cursor, history);
-		else if (buffer[0] != -61)
+		else if (buffer[0] != -61 && !buffer[1])
 			scribe = add_char(buffer, cursor++, scribe);
 		ft_bzero(buffer, 6);
 	}

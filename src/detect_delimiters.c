@@ -14,29 +14,18 @@
 
 int					contains_delims(char *inp)
 {
-//	char			*tmp;
-
-//	printf("in\n");
-//	tmp = inp;
 	if (!ft_strcmp(inp, "&&") || !ft_strcmp(inp, "||") ||
-		!ft_strcmp(inp, "&") || !ft_strcmp(inp, ";") || !ft_strcmp(inp, "|"))
-	{
-//		printf("out:0(a)\n");
+		!ft_strcmp(inp, ";") || !ft_strcmp(inp, "|"))
 		return (0);
-	}
 	while (*inp)
 	{
 		if (*inp == '\\')
 			inp++;
-		else if (*inp == '&' || *inp == '|' || *inp == ';')
-		{
-//			printf("out:1\n");
+		else if (*inp == '|' || *inp == ';')
 			return (1);
-		}
 		else
 			inp++;
 	}
-//	printf("out:0(b)\n");
 	return (0);
 }
 
@@ -48,6 +37,8 @@ int					check_separators_bigscale(char **inp)
 	while (inp[++i])
 	{
 		if (contains_delims(inp[i]))
+			return (1);
+		else if (contains_bad_redirs(inp[i]))
 			return (1);
 	}
 	return (0);
@@ -67,16 +58,14 @@ char				**recompress_lst(t_list *lst)
 		cursor = cursor->next;
 		len++;
 	}
-	if (!(outp = malloc(sizeof(char *) * (len + 1))))
+	if (!(outp = malloc(sizeof(char *) * (len + 2))))
 		ft_error(MAF, -1);
-	ft_bzero(outp, sizeof(char *) * (len + 1));
+	ft_bzero(outp, sizeof(char *) * (len + 2));
 	cursor = lst;
 	len = -1;
 	while (cursor)
 	{
 		outp[++len] = (char *)cursor->content;
-//		printf("watcher\n");
-//		printf("%d:%s\n", len, outp[len]);
 		tmp = cursor;
 		cursor = cursor->next;
 		tmp ? free(tmp) : 0;
@@ -84,6 +73,8 @@ char				**recompress_lst(t_list *lst)
 	outp[len + 1] = 0;
 	return (outp);
 }
+
+int serf = 0;
 
 char				**detect_bad_delimiters(char **inp)
 {
@@ -93,8 +84,10 @@ char				**detect_bad_delimiters(char **inp)
 	if (!inp || !check_separators_bigscale(inp))
 		return (inp);
 	list = convert_inp_lst(inp);
-//	list = check_redirs(list);
+	list = check_redirs(list);
 	outp = recompress_lst(list);
+	int i; i = -1; while (outp[++i])printf("%p::%s\n", outp[i], outp[i]);
+//	sleep(50);
 //free_rec_char(*inp);
 	return (outp);
 }
