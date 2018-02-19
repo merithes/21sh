@@ -16,6 +16,8 @@ void				display_lexing_err(int err, char *inp)
 	ft_putstr_fd(").\n", 2);
 }
 
+#define splitter_alt(x) ft_strsplit(x, ' ')
+
 void				exec_cli_lst(char *inp, t_env *env)
 {
 	t_listc			*tmp;
