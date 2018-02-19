@@ -65,3 +65,6 @@ ___-_________________________________________________________________________-__
 Weird characters may appear after the implementation of the redirection token
 split. Don't know if it was me mistyping a letter because I can't seem to get it
 to bug back again. Might be because of 'unicode' reasons.
+	|_>	Issue not tracked. But resolved somehow after toying around.
+		Remember to make a sacrifice to the dark gods,
+		voodoo and quantum physics.

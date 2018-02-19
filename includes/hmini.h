@@ -82,8 +82,7 @@
 */
 
 # define ERRP1 "21sh: Parse error near '"
-# define ERRP2_1 "21sh: Unexpected token '"
-# define ERRP2_2 "' After '"
+# define ERRP2 "21sh: Unexpected token near '"
 # define ERRP3 "21sh: Expected file name after token '"
 # define ERRP4 "21sh: Invalid redirection token '"
 
@@ -248,7 +247,7 @@ char						**detect_bad_delimiters(char **inp);
 int							contains_delims(char *inp);
 
 t_list						*convert_inp_lst(char **inp);
-int							lex_splitted(char **inp);
+int							lex_splitted(char **inp, char **inp2);
 t_list						*check_redirs(t_list *inp);
 
 int							analyze_spleet(char *inp[4],

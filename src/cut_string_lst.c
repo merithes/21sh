@@ -55,8 +55,7 @@ t_listc				*cut_string_delimiters(char **inp)
 	if ((err = forge_chain(outp, inp)) < 0)
 	{
 		free_rec_char(inp);
-		free_rec_listc(outp, F_MAIN_ONLY);
-//		print_parse_error(err);
+		free_rec_listc(outp, F_ALL);
 		return (NULL);
 	}
 	return (outp);

@@ -32,9 +32,9 @@ short int			is_delim(char *inp)
 
 short int			req_next(char *inp)
 {
-	if (ft_strcmp("||", inp) || ft_strcmp("&&", inp) || ft_strcmp("|", inp) ||
-		ft_strcmp(">>", inp) || ft_strcmp("<<", inp) || ft_strcmp(">", inp) ||
-		ft_strcmp("<", inp))
+	if (!ft_strcmp("||", inp) || !ft_strcmp("&&", inp) || !ft_strcmp("|", inp)
+		|| !ft_strcmp(">>", inp) || !ft_strcmp("<<", inp) ||
+		!ft_strcmp(">", inp) || !ft_strcmp("<", inp))
 		return (1);
 	return (0);
 }
@@ -68,7 +68,7 @@ int					redir_req_next(char *inp)
 	return (0);
 }
 
-int					lex_splitted(char **inp)
+int					lex_splitted(char **inp, char **err_token)
 {
 	int				i;
 
@@ -82,14 +82,20 @@ int					lex_splitted(char **inp)
 		else if (is_delim(inp[i]))
 		{
 			if (req_next(inp[i]) && (!inp[i + 1] || is_delim(inp[i + 1])))
+			{
+				*err_token = inp[i];
 				return (ERR_1);
+			}
 		}
 		else if (contains_redir(inp[i]))
 		{
 			if (redir_req_next(inp[i])&&
 				(!inp[i + 1] || is_delim(inp[i + 1]) ||
 				contains_redir(inp[i + 1])))
+			{
+				*err_token = inp[i];
 				return (inp[i + 1] ? ERR_2 : ERR_3);
+			}
 		}
 	}
 	return (0);

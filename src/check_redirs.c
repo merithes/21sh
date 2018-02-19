@@ -15,6 +15,11 @@ char			*cpy_first(char *inp, int *stf)
 		else if (inp[i] == '\\')
 			i++;
 	}
+	if (!i)
+	{
+		*stf = 0;
+		return (NULL);
+	}
 	set = (char *)malloc(i + 2);
 	bzero(set, i + 2);
 	while (++len < i)
@@ -81,10 +86,10 @@ t_list			*correct_redir(t_list *inp, t_list **cursor)
 	}
 	if (spleet(inp->content, spleetd, &tmp_a, &tmp_b))
 	{
-	printf("{\\_|%s|\t|%s|\t|%s|\n", spleetd[0], spleetd[1], spleetd[2]);
+//	printf("{\\_|%s|\t|%s|\t|%s|\n", spleetd[0], spleetd[1], spleetd[2]);
 		*cursor = tmp_b;
-//		(inp && inp->content) ? free(inp->content) : 0;
-//		(inp) ? free(inp) : 0;
+		(inp && inp->content) ? free(inp->content) : 0;
+		(inp) ? free(inp) : 0;
 		return (tmp_a);
 	}
 	return (inp);
@@ -99,7 +104,6 @@ t_list			*check_redirs(t_list *inp)
 	outp = correct_redir(inp, &cursor);
 	if (!cursor)
 		cursor = outp;
-	settii = outp->content;
 	while (cursor && cursor->next)
 	{
 		cursor_b = NULL;

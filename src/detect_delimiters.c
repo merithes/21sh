@@ -15,7 +15,7 @@
 int					contains_delims(char *inp)
 {
 	if (!ft_strcmp(inp, "&&") || !ft_strcmp(inp, "||") ||
-		!ft_strcmp(inp, ";") || !ft_strcmp(inp, "|"))
+		!ft_strcmp(inp, ";") || !ft_strcmp(inp, "|") || !ft_strcmp(inp, "&"))
 		return (0);
 	while (*inp)
 	{
@@ -86,7 +86,7 @@ char				**detect_bad_delimiters(char **inp)
 	list = convert_inp_lst(inp);
 	list = check_redirs(list);
 	outp = recompress_lst(list);
-	int i; i = -1; while (outp[++i])printf("%p::%s\n", outp[i], outp[i]);
+	int i; i = -1; while (outp[++i])printf("%p :: |%s|\n", outp[i], outp[i]);
 //	sleep(50);
 //free_rec_char(*inp);
 	return (outp);

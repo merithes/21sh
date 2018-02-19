@@ -22,17 +22,35 @@ int			isredir(char *inp)
 	return (1);
 }
 
+void		recat_stuff(char **a)
+{
+	int		len;
+	char	*tmp;
+
+	len = ft_strlen(a[1]) + ft_strlen(a[2]);
+	tmp = ft_strnew(len + 1);
+	ft_strcat(tmp, a[1]);
+	ft_strcat(tmp, a[2]);
+	free(a[1]);
+	a[1] = tmp;
+	free(a[2]);
+	a[2] = NULL;
+}
+
 int			analyze_spleet(char *a[4], t_list **tmp_a, t_list **tmp_b)
 {
 	int		i;
 
-	if (!a[0] || !a[1])
+	if (!a[1])
 		return (0);
 	if (!isredir(a[0]) && !isredir(a[1]))
 		return (0);
 	if (isnum(a[0]) && isnum(a[2] + 1) && a[2][0] == '&'
 		&& (!ft_strcmp(a[1], "<") || !ft_strcmp(a[1], ">")))
 		return (0);
+	else if (!isnum(a[0]) && isnum(a[2] + 1) && a[2][0] == '&' &&
+	 	!ft_strcmp(a[1], ">"))
+		recat_stuff(a);
 	i = 0;
 	*tmp_a = ft_lstnew(NULL, 0);
 	if (!a[0] || !a[0][0])
