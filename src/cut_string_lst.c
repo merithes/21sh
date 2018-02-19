@@ -58,5 +58,6 @@ t_listc				*cut_string_delimiters(char **inp)
 		free_rec_listc(outp, F_ALL);
 		return (NULL);
 	}
+//	t_listc *cpy = outp; for (int j = 0; cpy; j++){for (int i = 0; cpy->cont[i]; i++){ printf("arg[%d] = [%s]\n",j, cpy->cont[i]);}cpy = cpy->next;}
 	return (outp);
 }

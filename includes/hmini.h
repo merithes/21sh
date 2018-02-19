@@ -252,7 +252,13 @@ t_list						*check_redirs(t_list *inp);
 
 int							analyze_spleet(char *inp[4],
 								t_list **tmp_a, t_list **tmp_b);
+int							isnum(char *inp);
 int							contains_bad_redirs(char *inp);
+void						redir_simple_format(char **inp, int i,
+								t_listc *lnk);
+void						redir_nsimple_format(char **inp, int i,
+								t_listc *lnk);
+void						erase_args(char **inp, int i, int type);
 
 t_listc	*test(t_listc *cmd);
 void    test_left(t_listc *cmd);

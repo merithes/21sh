@@ -26,7 +26,8 @@ SRCS 		=	main.c env.c init_env.c manage_env.c prompt.c command.c		\
 				cut_string_lst.c exec_lst.c clear_scrn.c splitter_alt.c \
 				set_link.c free_rec_listc.c detect_delimiters.c \
 				detect_delimiters_listing-stuff.c lexer.c redir.c \
-				check_redirs.c analyze_spleet.c bad_redirs.c
+				check_redirs.c analyze_spleet.c bad_redirs.c \
+				format_redirections.c
 DIR_SRC		= $(addprefix $(SRCPATH)/, $(SRCS))
 SRCPATH		= src
 
