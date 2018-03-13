@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/02/14 16:59:06 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/03/13 16:49:22 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@
 # define IN 0
 # define OUT 1
 # define ERR_OUT 2
+# define READ_END 0
+# define WRITE_END 1
 /*
 ** TYPEDEFS
 */
@@ -128,6 +130,7 @@ typedef struct termios		t_ermios;
 ** 				2 = fd receptor
 ** *file = file to redirect to
 */
+typedef enum {lire=0, ecrire} e_cote;
 
 typedef struct				s_redir
 {
@@ -142,10 +145,23 @@ typedef struct				s_list_complete
 	char					**cont;
 	int						nb_arg;
 	t_redir					*redirs;
+	int						pid;    // N° processus
+	int						status; 
 	struct s_list_complete	*prev;
 	struct s_list_complete	*next;
 }							t_listc;
 
+// Structure qui gère les pipes
+typedef struct {
+	int 					cote[2];    // Cotés du tube
+}							t_pipe;
+
+// Structure qui gère les processus à lancer
+typedef struct {
+	char 					*arg[100];    // Nom programme plus arguments
+	int						pid;    // N° processus
+	int						status;    // Code retour
+}							t_pgm;
 /*
 ** GLOBALS
 ** =============================================================================
@@ -262,11 +278,12 @@ void						erase_args(char **inp, int i, int type);
 
 t_listc	*test(t_listc *cmd);
 void    test_left(t_listc *cmd);
-void 	redirect(t_listc *cmd, pid_t father);
-void     do_pipe(t_listc *cmd, int i, pid_t father, int p[2]);
+void 	redirect(t_listc *cmd);
+/*int*/void     do_pipe(t_listc *cmd);
 int					filter_cli(char **arr, char fp[], char *cli, t_env *i_env);
 void    prepare_pipe(t_listc *cmd);
 t_redir *init_redir(t_redir* lol);
 t_listc *add_elem(t_listc *cmd);
 t_listc *add_elem2(t_listc *cmd);
+void errExit(char *str);
 #endif

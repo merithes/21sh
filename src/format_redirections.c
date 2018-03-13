@@ -40,7 +40,10 @@ void				redir_simple_format(char **inp, int i, t_listc *lnk)
 	if (!ft_strcmp(inp[i], "<<"))
 		redir[1] = 2;
 	else if (!ft_strcmp(inp[i], "<"))
+	{
+		redir[0] = 0;
 		redir[1] = 0;
+	}
 	else if (!ft_strcmp(inp[i], ">"))
 		redir[1] = 1;
 	else if (!ft_strcmp(inp[i], ">>"))

@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 12:08:52 by jamerlin          #+#    #+#             */
-/*   Updated: 2018/02/19 19:06:10 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/03/13 17:22:36 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <signal.h>
 
 t_listc *add_elem2(t_listc *cmd) // ajoute un maillon
 {
@@ -56,40 +57,29 @@ t_redir *init_redir2(t_redir* lol) // init la liste redir
 {
     lol = (t_redir*)malloc(sizeof(t_redir));
     lol->redir[0] = OUT; // left = IN | right = OUT| leftleft = | rightright = OUT
-    lol->redir[1] = 1; // left = 0; | right = 1 | leftleft = | rightright = 3
+    lol->redir[1] = 0; // left = 0; | right = 1 | leftleft = | rightright = 3
     lol->redir[2] = OUT; // left = OUT | right = OUT | leftleft = | rightright = OUT 
     lol->file = "fichier";
     lol->next = NULL;
     return (lol);
 }
 
-void    test_left(t_listc *cmd) //test wc < fichier
-{
-    int i;
-
-    i = 0;
-    cmd = add_elem2(cmd);
-    cmd->redirs = init_redir2(cmd->redirs);
-    if (i == 0)
-    {
-        cmd->cont = (char **)malloc(sizeof(char *) * 2);
-        cmd->cont[0] = ft_strdup("/bin/wc");
-        cmd->cont[1] = NULL;
-    }
-     cmd->nb_arg = 2;
-}
-
 void    left_redirect(t_listc *cmd) //redirection d'un fichier vers une sortie
 {
     int descfd[2];
-
+    int ret;
+    if (!(ret = open(cmd->redirs->file, O_RDONLY)))
+    {
+        close(ret);
+        exit(1);
+    }
     descfd[0] = (cmd->redirs->file) ? open(cmd->redirs->file, O_RDONLY) : cmd->redirs->redir[2];
     descfd[1] = cmd->redirs->redir[0];
     dup2(descfd[0], descfd[1]);
     close(descfd[0]);
 }
 
-void    right_redirect(t_listc *cmd) //redirection d'une sortie vers un fichier
+void right_redirect(t_listc *cmd) //redirection d'une sortie vers un fichier
 {
     int descfd[2];
     
@@ -99,17 +89,6 @@ void    right_redirect(t_listc *cmd) //redirection d'une sortie vers un fichier
     close(descfd[0]);
 }
 
-/*void    double_left_redirect(t_listc *cmd)
-{
-    int descfd[2];
-
-    descfd[0] = (cmd->redirs->file) ? open(cmd->redirs->file, O_RDWR| O_TRUNC | O_CREAT, S_IRWXU) : cmd->redirs->redir[2];
-    descfd[1] = cmd->redirs->redir[0];
-    dup2(descfd[0], descfd[1]);
-    close(descfd[0]);
-
-}*/
-
 void    double_right_redirect(t_listc *cmd) // redirection d'une sortie vers la fin d'un fichier
 {
     int descfd[2];
@@ -117,67 +96,42 @@ void    double_right_redirect(t_listc *cmd) // redirection d'une sortie vers la 
     descfd[0] = (cmd->redirs->file) ? open(cmd->redirs->file, O_RDWR | O_APPEND | O_CREAT, S_IRWXU ) : cmd->redirs->redir[2];
     descfd[1] = cmd->redirs->redir[0];
     dup2(descfd[0], descfd[1]);
-    close(descfd[0]);
+    //close(descfd[0]);
 }
 
-void     do_pipe(t_listc *cmd, int i, pid_t father, int p[2]) // fonction de pipe
+void errExit(char *str)
 {
-    int const   READ_END = 0;
-    int const   WRITE_END = 1;
-    char		fullpath[MAXPATHLEN * 2 + 1];
-    int         bin;
-    static int  status;
+    printf("[%s]\n", str);
+    exit(1);
+}
 
-    if (WEXITSTATUS(status) != 0)
+void     dup_process(int p[2])
+{
+    if (p[1] != STDOUT_FILENO)
     {
-            printf("exit = %s\n", cmd->cont[0]);
-            exit(1);
-    }
-    if (i == cmd->nb_arg -1 || (cmd->nb_arg == 2 && i == 1))
-    {
-        close(p[WRITE_END]);
-	    dup2(p[READ_END], STDIN_FILENO);
-        if ((bin = filter_cli(cmd->cont, fullpath, cmd->cont[0], g_backup_env)) < 0)
-            return ;
-        execve(fullpath, cmd->cont, NULL);
-        perror("execve");
-        exit(1);
-    }
-    else
-    {
-        if (pipe(p) == -1)
-        {
-            perror("pipe");
-            exit(1);
-        }
-        if ((father = fork()) == -1)
-        {
-            perror("fork");
-            exit(1);
-        }
-        if (father == 0)
-        {
-            close(p[READ_END]);
-	        dup2(p[WRITE_END], STDOUT_FILENO);
-            if ((bin = filter_cli(cmd->cont, fullpath, cmd->cont[0], g_backup_env)) < 0)
-                return ;
-            execve(fullpath, cmd->cont, NULL);
-            perror("execve");
-            exit(1);
-        }
-        close(p[WRITE_END]);
-        dup2(p[READ_END], STDIN_FILENO);
-    }
-    if (cmd->nb_arg >= 2 && i <= cmd->nb_arg - 2)
-    {
-        do_pipe(cmd->next, i + 1, father, p);
-        waitpid(father, &status, WUNTRACED);
+	    if (dup2(p[1], STDOUT_FILENO) == -1)
+            errExit("dup 1");
+        if (close(p[1]) == -1)
+            errExit("close 2");
     }
 }
+
+void     dup_last_process(int p[2])
+{
+    if (p[0]!= STDIN_FILENO)
+    {
+        if (dup2(p[0], STDIN_FILENO) == -1)
+            errExit("dup last");
+        if (close(p[0]) == -1)
+            errExit("clode last");
+    }
+}
+
 
 void    prepare_pipe(t_listc *cmd)
 {
     t_listc *cpy;
+    t_listc *last;
     int nb_cmd;
     int i;
 
@@ -186,6 +140,7 @@ void    prepare_pipe(t_listc *cmd)
     i = 0;
     while (cpy) 
     {
+        last = cpy;
         if (cpy->sep_type == PIPE)
             nb_cmd++;
         cpy = cpy->next;
@@ -196,16 +151,16 @@ void    prepare_pipe(t_listc *cmd)
     {
         cpy->nb_arg = nb_cmd ;
         i++;
+        //cpy->last = last;
+        cpy->prev = cpy;
 		cpy = cpy->next;
     }
 }
 
-void   redirect(t_listc *cmd, pid_t father) // gestion des redirections
+void   redirect(t_listc *cmd) // gestion des redirections
 {
-    int p[2];
-
     if (cmd->sep_type == PIPE)
-        do_pipe(cmd, 0, father,p); // il faut une liste avec les commandes dans des maillons différents
+        do_pipe(cmd/*, pid_tab,0p*/); // il faut une liste avec les commandes dans des maillons différents
     else
     {
         /*if (!cmd->redirs || !cmd->redirs->redir[0])
@@ -220,4 +175,3 @@ void   redirect(t_listc *cmd, pid_t father) // gestion des redirections
             double_right_redirect(cmd); // une liste de 1 maillon avec le fichier renseigne
     }
 }
-

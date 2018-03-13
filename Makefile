@@ -6,7 +6,7 @@
 #    By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/17 14:50:04 by vboivin           #+#    #+#              #
-#    Updated: 2018/02/12 15:43:49 by jamerlin         ###   ########.fr        #
+#    Updated: 2018/03/13 15:46:28 by jamerlin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRCS 		=	main.c env.c init_env.c manage_env.c prompt.c command.c		\
 				set_link.c free_rec_listc.c detect_delimiters.c \
 				detect_delimiters_listing-stuff.c lexer.c redir.c \
 				check_redirs.c analyze_spleet.c bad_redirs.c \
-				format_redirections.c
+				format_redirections.c pipe.c
 DIR_SRC		= $(addprefix $(SRCPATH)/, $(SRCS))
 SRCPATH		= src
 

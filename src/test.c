@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 12:33:10 by jamerlin          #+#    #+#             */
-/*   Updated: 2018/02/05 11:56:52 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/03/01 17:25:12 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,44 @@
     printf("ptdr\n");
     return (0);
 }*/
+#define SON 0
 
-void test(int i, int p[2], pid_t father, int nb_args)
+void    set_fd_pipe(int p[2])
+{
+    close(p[0]);
+    dup2(p[1], STDOUT_FILENO);
+}
+
+void    set_fd_standard(int p[2])
+{
+    close(p[1]);
+    dup2(p[0], STDIN_FILENO);
+}
+
+int     run_process(int p[2], int i)
+{
+    set_fd_pipe(p);
+    //printf("%d\n", i);
+    if (i == 0)
+        execve("/bin/cat" , (char*[3]){"/bin/cat","-e",NULL},NULL);
+    if (i == 1)
+        execve("/usr/bin/grep" , (char*[3]){"/usr/bin/grep","k_",NULL},NULL);
+    perror("execve");
+    exit(1);
+}
+
+void    test(int i, int p[2], pid_t father, int nb_args)
 {
     int const	READ_END = 0;
 	int const	WRITE_END = 1;
+    int status;
 
-    if (i == nb_args -1)
+    //(WEXITSTATUS(status) != 0) ? printf("exit\n") : printf("ok\n");
+    if (i == nb_args -1 || (nb_args == 2 && i == 1))
     {
-        close(p[WRITE_END]);
-	    dup2(p[READ_END], STDIN_FILENO);
-        execve("/bin/cat",(char*[3]){"/bin/cat","-e",NULL},NULL);
+        set_fd_standard(p);
+        //printf("%d\n", i);
+        execve("/bin/ls",(char*[2]){"/bin/ls",NULL},NULL);
         perror("execve");
         exit(1);
     }
@@ -66,22 +93,14 @@ void test(int i, int p[2], pid_t father, int nb_args)
         }
         if (father == 0)
         {
-            close(p[READ_END]);
-	        dup2(p[WRITE_END], STDOUT_FILENO);
-            if (i == 0)
-                execve("/bin/ls" , (char*[2]){"/bin/ls",NULL},NULL);
-            if (i == 1)
-                execve("/usr/bin/grep" , (char*[3]){"/usr/bin/grep","k_",NULL},NULL);
-            perror("execve");
-            exit(1);
+            run_process(p, i);
         }
-        close(p[WRITE_END]);
-        dup2(p[READ_END], STDIN_FILENO);
+        set_fd_standard(p);
     }
-    if (nb_args >= 3 && i <= nb_args - 2)
+    if (nb_args >= 2 && i <= nb_args - 2)
     {
         test(i + 1, p, father, nb_args);
-        wait(NULL);
+        waitpid(father, &status, WUNTRACED);
     }
 }
 
@@ -93,8 +112,8 @@ int     main(void)
     test(0, p, father, 3);
     return (0);
 }
-/* 
-int main(void)
+
+/*int main(void)
 {  
     int p[2];
     pid_t pid;

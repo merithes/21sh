@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-/*   Updated: 2018/02/19 19:05:06 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/03/13 18:00:05 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,18 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	pid_t			father;
 	static int		status;
 
-	father = 0;
+	father = getpid();
+	dprintf(2,"pid_shell = [%d]\n", getpid());
 	if ((bin = filter_cli(full_detail->cont, fullpath, cli, i_env)) < 0)
 		return ;
-	if (!bin && fullpath[0] && !(father = fork()))
+	if (!bin && fullpath[0] && full_detail->sep_type == PIPE)
+		do_pipe(full_detail);
+	else if (!bin && fullpath[0] && (father = fork()) == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		env = rmk_env(i_env);
 		if (full_detail->sep_type == PIPE || full_detail->sep_type == NONE)
-			redirect(full_detail, father);
+			redirect(full_detail);
 		if (full_detail->prev && (full_detail->prev->sep_type == AND || full_detail->prev->sep_type == OR))
 		{
 			if (full_detail->prev->sep_type == OR && WEXITSTATUS(status) != 0)
@@ -80,14 +83,17 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 				exit(WEXITSTATUS(status));
 		}
 		else
+		{
+			dprintf(2,"lol\n");
 			execve(fullpath, full_detail->cont, env);
+		}
 		access(fullpath, X_OK) ?
 		pcat("minishell: ", fullpath, ": Permission denied.", 1) :
 		pcat("minishell: ", fullpath, NEOB, 1);
 		exit(-1);
 	}
 	(!bin && fullpath[0]) ? signal(SIGINT, &signal_newline) : 0;
-	waitpid(father, &status, WUNTRACED);
+	wait(&father);
 }
 
 int					main(int ac, char **av, char **env_o)
