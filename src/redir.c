@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 12:08:52 by jamerlin          #+#    #+#             */
-/*   Updated: 2018/03/13 17:22:36 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/03/15 15:02:26 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void    prepare_pipe(t_listc *cmd)
     cpy = cmd;
     nb_cmd = 0;
     i = 0;
-    while (cpy) 
+    while (cpy->sep_type == PIPE) 
     {
         last = cpy;
         if (cpy->sep_type == PIPE)
@@ -149,9 +149,8 @@ void    prepare_pipe(t_listc *cmd)
     nb_cmd++;
     while (cpy && i < nb_cmd)
     {
-        cpy->nb_arg = nb_cmd ;
+        cpy->nb_arg = nb_cmd;
         i++;
-        //cpy->last = last;
         cpy->prev = cpy;
 		cpy = cpy->next;
     }
@@ -159,19 +158,13 @@ void    prepare_pipe(t_listc *cmd)
 
 void   redirect(t_listc *cmd) // gestion des redirections
 {
-    if (cmd->sep_type == PIPE)
-        do_pipe(cmd/*, pid_tab,0p*/); // il faut une liste avec les commandes dans des maillons différents
-    else
-    {
-        /*if (!cmd->redirs || !cmd->redirs->redir[0])
-            cmd->redirs = init_redir(cmd->redirs);*/
-        if (cmd->redirs && cmd->redirs->redir[1] == 0)
-            left_redirect(cmd); // une liste de 1 maillon avec le fichier renseigne 
-        else if (cmd->redirs && cmd->redirs->redir[1] == 1)
+    if (cmd->redirs && cmd->redirs->redir[1] == 0)
+        left_redirect(cmd); // une liste de 1 maillon avec le fichier renseigne 
+    else if (cmd->redirs && cmd->redirs->redir[1] == 1)
             right_redirect(cmd); // une liste de 1 maillon avec le fichier renseigne
-        /*else if (cmd->redir[1] == 2) // doit etre gerer en amont 
-            double_left_redirect(cmd);*/
-        else if (cmd->redirs && cmd->redirs->redir[1] == 3)
-            double_right_redirect(cmd); // une liste de 1 maillon avec le fichier renseigne
-    }
+    /*else if (cmd->redir[1] == 2) // doit etre gerer en amont 
+        double_left_redirect(cmd);*/
+    else if (cmd->redirs && cmd->redirs->redir[1] == 3)
+        double_right_redirect(cmd); // une liste de 1 maillon avec le fichier renseigne
+
 }

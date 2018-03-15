@@ -6,7 +6,7 @@
 #    By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/17 14:50:04 by vboivin           #+#    #+#              #
-#    Updated: 2018/03/13 15:46:28 by jamerlin         ###   ########.fr        #
+#    Updated: 2018/03/15 12:39:25 by jamerlin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME		= 21sh
 HPATH		= includes
 INC			= -I$(HPATH) -Ilibft/includes
-FLAGS		= -Wall -Werror -Wextra #-fsanitize=address -g3 -fbounds-check
+FLAGS		= -Wall -Werror -Wextra #-fsanitize=address -g3 #-fbounds-check
 COMP		= gcc
 LIBFT		= -Llibft -lft -lcurses
 

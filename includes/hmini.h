@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/03/13 16:49:22 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/03/15 15:05:19 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ typedef struct termios		t_ermios;
 ** 				2 = fd receptor
 ** *file = file to redirect to
 */
-typedef enum {lire=0, ecrire} e_cote;
+
+//typedef enum {lire=0, ecrire} e_cote;
 
 typedef struct				s_redir
 {
@@ -144,24 +145,18 @@ typedef struct				s_list_complete
 	int						sep_type;
 	char					**cont;
 	int						nb_arg;
+	int						cote[2];
+	int						status;
 	t_redir					*redirs;
-	int						pid;    // N° processus
-	int						status; 
 	struct s_list_complete	*prev;
 	struct s_list_complete	*next;
 }							t_listc;
 
 // Structure qui gère les pipes
-typedef struct {
+typedef struct 				s_pipe
+{
 	int 					cote[2];    // Cotés du tube
 }							t_pipe;
-
-// Structure qui gère les processus à lancer
-typedef struct {
-	char 					*arg[100];    // Nom programme plus arguments
-	int						pid;    // N° processus
-	int						status;    // Code retour
-}							t_pgm;
 /*
 ** GLOBALS
 ** =============================================================================
@@ -279,7 +274,7 @@ void						erase_args(char **inp, int i, int type);
 t_listc	*test(t_listc *cmd);
 void    test_left(t_listc *cmd);
 void 	redirect(t_listc *cmd);
-/*int*/void     do_pipe(t_listc *cmd);
+int     init_pipe(t_listc *cmd);
 int					filter_cli(char **arr, char fp[], char *cli, t_env *i_env);
 void    prepare_pipe(t_listc *cmd);
 t_redir *init_redir(t_redir* lol);
