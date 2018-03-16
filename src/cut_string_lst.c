@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/06 14:23:57 by vboivin           #+#    #+#             */
-/*   Updated: 2018/02/13 15:29:40 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/03/16 15:08:29 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_listc				*create_chain_link(t_listc *prevv)
 	outp->prev = prevv;
 	outp->next = NULL;
 	outp->cont = NULL;
+	outp->status = 0;
+	outp->nb_arg = 1;
 	outp->redirs = NULL;
 	outp->sep_type = 0;
 	return (outp);

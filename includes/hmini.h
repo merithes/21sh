@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/03/15 15:05:19 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/03/16 15:07:41 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ typedef struct				s_list_complete
 	int						sep_type;
 	char					**cont;
 	int						nb_arg;
-	int						cote[2];
 	int						status;
 	t_redir					*redirs;
 	struct s_list_complete	*prev;
@@ -155,7 +154,7 @@ typedef struct				s_list_complete
 // Structure qui gère les pipes
 typedef struct 				s_pipe
 {
-	int 					cote[2];    // Cotés du tube
+	int 					cote[2];    // Cotés du tube 0 = WRITE 1 = READ
 }							t_pipe;
 /*
 ** GLOBALS
@@ -271,14 +270,15 @@ void						redir_nsimple_format(char **inp, int i,
 								t_listc *lnk);
 void						erase_args(char **inp, int i, int type);
 
-t_listc	*test(t_listc *cmd);
-void    test_left(t_listc *cmd);
-void 	redirect(t_listc *cmd);
-int     init_pipe(t_listc *cmd);
-int					filter_cli(char **arr, char fp[], char *cli, t_env *i_env);
-void    prepare_pipe(t_listc *cmd);
-t_redir *init_redir(t_redir* lol);
-t_listc *add_elem(t_listc *cmd);
-t_listc *add_elem2(t_listc *cmd);
-void errExit(char *str);
+t_listc						*test(t_listc *cmd);
+void						test_left(t_listc *cmd);
+void						redirect(t_listc *cmd, t_pipe *tabTube, int i);
+int							init_pipe(t_listc *cmd, t_pipe *tabTube);
+int							filter_cli(char **arr, char fp[], char *cli, t_env *i_env);
+void						prepare_pipe(t_listc *cmd);
+int							prepare_multi_redir(t_listc *cmd);
+t_redir						*init_redir(t_redir* lol);
+t_listc						*add_elem(t_listc *cmd);
+t_listc						*add_elem2(t_listc *cmd);
+void						errExit(char *str);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-/*   Updated: 2018/03/15 14:09:03 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/03/16 20:07:31 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,22 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	int				bin;
 	pid_t			father;
 	static int		status;
+	t_pipe			*tabTube;
 
 	father = getpid();
 	if ((bin = filter_cli(full_detail->cont, fullpath, cli, i_env)) < 0)
 		return ;
+	//printf("nb_arg = [%d]\n", full_detail->nb_arg);
+	if (!(tabTube = (t_pipe *)malloc(sizeof(t_pipe) * ((full_detail->nb_arg)))))
+		return ;
 	if (!bin && fullpath[0] && full_detail->sep_type == PIPE)
-		status = init_pipe(full_detail);
+		status = init_pipe(full_detail, tabTube);
 	else if (!bin && fullpath[0] && (father = fork()) == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		env = rmk_env(i_env);
 		if (full_detail->sep_type == NONE)
-			redirect(full_detail);
+			redirect(full_detail, tabTube, 0);
 		if (full_detail->prev && (full_detail->prev->sep_type == AND || full_detail->prev->sep_type == OR))
 		{
 			if (full_detail->prev->sep_type == OR && WEXITSTATUS(status) != 0)
@@ -90,6 +94,7 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	}
 	(!bin && fullpath[0]) ? signal(SIGINT, &signal_newline) : 0;
 	waitpid(father, &status, WUNTRACED);
+	free(tabTube);
 }
 
 int					main(int ac, char **av, char **env_o)

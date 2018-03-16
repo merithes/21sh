@@ -35,17 +35,24 @@ void	ft_cmd_pipe(t_listc *cmd)
 void	pipe_tmp(t_listc *cmd, int i, t_pipe *tabTube)
 {
 	/** Fermeture tubes inutilisés par ce processus **/
+	/*if (cmd->redirs)
+		redirect(cmd, tabTube, i);*/
 	fermeture(i, cmd->nb_arg - 1, tabTube);
-	if (i > 0)
-	{/** Redirection entrée venant du tube précédent **/
-		close(STDIN_FILENO);
-		dup2(tabTube[i - 1].cote[0], STDIN_FILENO);
+	if (!cmd->redirs)
+	{
+		if (i > 0)
+		{/** Redirection entrée venant du tube précédent **/
+			close(STDIN_FILENO);
+			dup2(tabTube[i - 1].cote[0], STDIN_FILENO);
+		}
+		if (i < (cmd->nb_arg - 1))
+		{/** Redirection sortie sur mon tube **/
+			close(STDOUT_FILENO);
+			dup2(tabTube[i].cote[1], STDOUT_FILENO);
+		}
 	}
-	if (i < (cmd->nb_arg - 1))
-	{/** Redirection sortie sur mon tube **/
-		close(STDOUT_FILENO);
-		dup2(tabTube[i].cote[1], STDOUT_FILENO);
-	}
+	else
+		redirect(cmd, tabTube, i);
 	ft_cmd_pipe(cmd);
 }
 
@@ -96,15 +103,15 @@ int		do_pipe(t_listc *cmd, int *pid_tab, t_pipe *tabTube)
 	return (status);
 }
 
-int		init_pipe(t_listc *cmd)
+int		init_pipe(t_listc *cmd, t_pipe *tabTube)
 {
 	int		*pid_tab;
 	int		i;
-	t_pipe	*tabTube;
+	//t_pipe	*tabTube;
 
 	i = 0;
-	if (!(tabTube = (t_pipe *)malloc((cmd->nb_arg) * sizeof(t_pipe))))
-		exit(-1);
+	/*if (!(tabTube = (t_pipe *)malloc((cmd->nb_arg) * sizeof(t_pipe))))
+		exit(-1);*/
 	if (!(pid_tab = (int *)malloc(sizeof(int) * (cmd->nb_arg + 1))))
 		exit(-1);
 	while (i < (cmd->nb_arg - 1))
