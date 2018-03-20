@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/26 21:25:52 by vboivin           #+#    #+#             */
-/*   Updated: 2018/03/16 15:07:41 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/03/20 21:50:29 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,6 @@ typedef struct termios		t_ermios;
 ** 				2 = fd receptor
 ** *file = file to redirect to
 */
-
-//typedef enum {lire=0, ecrire} e_cote;
 
 typedef struct				s_redir
 {
@@ -281,4 +279,7 @@ t_redir						*init_redir(t_redir* lol);
 t_listc						*add_elem(t_listc *cmd);
 t_listc						*add_elem2(t_listc *cmd);
 void						errExit(char *str);
+int							ft_backup_stdin(int nb);
+int							ft_backup_stdout(int nb);
+int							ft_backup_stderr(int nb);
 #endif

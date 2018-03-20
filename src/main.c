@@ -6,7 +6,7 @@
 /*   By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 20:20:18 by vboivin           #+#    #+#             */
-/*   Updated: 2018/03/16 20:07:31 by jamerlin         ###   ########.fr       */
+/*   Updated: 2018/03/20 19:34:40 by jamerlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	father = getpid();
 	if ((bin = filter_cli(full_detail->cont, fullpath, cli, i_env)) < 0)
 		return ;
-	//printf("nb_arg = [%d]\n", full_detail->nb_arg);
 	if (!(tabTube = (t_pipe *)malloc(sizeof(t_pipe) * ((full_detail->nb_arg)))))
 		return ;
 	if (!bin && fullpath[0] && full_detail->sep_type == PIPE)
@@ -74,7 +73,7 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	{
 		signal(SIGINT, SIG_DFL);
 		env = rmk_env(i_env);
-		if (full_detail->sep_type == NONE)
+		if (full_detail->sep_type == NONE || full_detail->sep_type == SEPA)
 			redirect(full_detail, tabTube, 0);
 		if (full_detail->prev && (full_detail->prev->sep_type == AND || full_detail->prev->sep_type == OR))
 		{
@@ -94,6 +93,13 @@ void				exec_cli(char *cli, t_listc *full_detail, t_env *i_env)
 	}
 	(!bin && fullpath[0]) ? signal(SIGINT, &signal_newline) : 0;
 	waitpid(father, &status, WUNTRACED);
+	for(int i = 0; i < full_detail->nb_arg; i++)
+	{
+		if (tabTube[i].cote[0] > 2)
+			close(tabTube[i].cote[0]);
+		if (tabTube[i].cote[1] > 2)
+			close(tabTube[i].cote[1]);
+	}
 	free(tabTube);
 }
 

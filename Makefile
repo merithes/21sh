@@ -6,7 +6,7 @@
 #    By: jamerlin <jamerlin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/17 14:50:04 by vboivin           #+#    #+#              #
-#    Updated: 2018/03/16 15:25:33 by jamerlin         ###   ########.fr        #
+#    Updated: 2018/03/20 16:29:34 by jamerlin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ $(NAME): $(DIR_OBJ)
 	@printf "                                                         \r"
 	@printf "main compilation:\tdone\n"
 	@make -C libft
-	@echo "vboivin" > auteur
+	@echo "vboivin:jamerlin" > auteur
 	@$(COMP) $(DIR_OBJ) -o $(NAME) $(INCMAC) $(LIBFT) $(FLAGS) 
 
 clean:

@@ -12,12 +12,19 @@ void	fermeture(int fils, int nb_tube, t_pipe *tabTube)
 	int i;
 
 	i = 0;
+	//fprintf(stderr, "fermeture tubes processus(%d)\n", fils);
 	while (i < nb_tube)
 	{
-		if (i != (fils - 1))
+		//fprintf(stderr, "\ti = [%d] && fd[0] = [%d]\n", i, tabTube[i].cote[0]);
+		//fprintf(stderr, "\ti = [%d] && fd[1] = [%d]\n", i, tabTube[i].cote[1]);
+		if (i != (fils - 1)) {
+			//fprintf(stderr, "\tfermeture(%d) %d.lire fd[%d]\n", fils, i, tabTube[i].cote[0]);
 			close(tabTube[i].cote[0]);
-		if (i != fils)
+		}
+		if (i != fils) {
+			//fprintf(stderr, "\tfermeture(%d) %d.ecrire fd[%d]\n", fils, i, tabTube[i].cote[1]);
 			close(tabTube[i].cote[1]);
+		}
 		i++;
 	}
 }
@@ -35,24 +42,21 @@ void	ft_cmd_pipe(t_listc *cmd)
 void	pipe_tmp(t_listc *cmd, int i, t_pipe *tabTube)
 {
 	/** Fermeture tubes inutilisés par ce processus **/
-	/*if (cmd->redirs)
-		redirect(cmd, tabTube, i);*/
+	//fprintf(stderr, "fils (%d) - pid=%d\n", i, getpid());
 	fermeture(i, cmd->nb_arg - 1, tabTube);
-	if (!cmd->redirs)
-	{
-		if (i > 0)
-		{/** Redirection entrée venant du tube précédent **/
-			close(STDIN_FILENO);
-			dup2(tabTube[i - 1].cote[0], STDIN_FILENO);
-		}
-		if (i < (cmd->nb_arg - 1))
-		{/** Redirection sortie sur mon tube **/
-			close(STDOUT_FILENO);
-			dup2(tabTube[i].cote[1], STDOUT_FILENO);
-		}
+	if (i > 0)
+	{/** Redirection entrée venant du tube précédent **/
+		close(STDIN_FILENO);
+		//fprintf(stderr, "dup | i = [%d] -val=%d vers 0\n", i, tabTube[i - 1].cote[0]);
+		dup2(tabTube[i - 1].cote[0], STDIN_FILENO);
 	}
-	else
-		redirect(cmd, tabTube, i);
+	if (i < (cmd->nb_arg - 1) )
+	{/** Redirection sortie sur mon tube **/
+		close(STDOUT_FILENO);
+		//fprintf(stderr, "dup | i = [%d] -val=%d vers 1\n", i, tabTube[i].cote[1]);
+		dup2(tabTube[i].cote[1], STDOUT_FILENO);
+	}
+	redirect(cmd, tabTube, i);
 	ft_cmd_pipe(cmd);
 }
 
@@ -94,6 +98,7 @@ int		do_pipe(t_listc *cmd, int *pid_tab, t_pipe *tabTube)
 	signal(SIGINT, SIG_IGN);
 	ft_pipe(cmd, pid_tab, tabTube, nu_cmd);
 	fermeture(-1, cmd->nb_arg - 1, tabTube);
+		dprintf(2, "lol\n");
 	while (++wt_cpt < cmd->nb_arg)
 	{
 		waitpid(pid_tab[wt_cpt], &cpy->status, 0);
@@ -107,11 +112,8 @@ int		init_pipe(t_listc *cmd, t_pipe *tabTube)
 {
 	int		*pid_tab;
 	int		i;
-	//t_pipe	*tabTube;
 
 	i = 0;
-	/*if (!(tabTube = (t_pipe *)malloc((cmd->nb_arg) * sizeof(t_pipe))))
-		exit(-1);*/
 	if (!(pid_tab = (int *)malloc(sizeof(int) * (cmd->nb_arg + 1))))
 		exit(-1);
 	while (i < (cmd->nb_arg - 1))
